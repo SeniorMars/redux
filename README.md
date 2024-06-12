@@ -33,14 +33,14 @@ Modern and minimalistic blog theme powered by [Zola](https://getzola.org). See a
 
 1. Download the theme
 ```
-git submodule add https://github.com/not-matthias/apollo themes/apollo
+git submodule add https://github.com/seniormars/redux themes/redux
 ```
 
-2. Add `theme = "apollo"` to your `config.toml`
+2. Add `theme = "redux"` to your `config.toml`
 3. Copy the example content
 
 ```
-cp -r themes/apollo/content content
+cp -r themes/redux/content content
 ```
 
 ## Options

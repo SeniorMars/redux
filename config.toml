@@ -1,5 +1,5 @@
-base_url = "https://not-matthias.github.io/apollo/"
-title = "not-matthias"
+base_url = "https://seniormars.github.io/redux/"
+title = "seniormars"
 description = "This is an example description"
 build_search_index = false
 generate_feed = true
@@ -27,6 +27,7 @@ menu = [
     { name = "/tags", url = "/tags", weight = 4 },
 ]
 
+# keep for now
 socials = [
     { name = "twitter", url = "https://twitter.com/not_matthias", icon = "twitter" },
     { name = "github", url = "https://github.com/not-matthias/", icon = "github" },

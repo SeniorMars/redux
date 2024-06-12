@@ -1,9 +1,12 @@
-name = "apollo"
-description = "Modern and minimalistic blog theme"
-min_version = "0.14.0"
+name = "redux"
+description = "A fork of the Apollo theme for Zola with a few liberties"
+min_version = "0.0.5"
 license = "MIT"
-homepage = "https://github.com/not-matthias/apollo"
-demo = "https://not-matthias.github.io/apollo"
+homepage = "https://github.com/seniormars/redux"
+# demo = "https://seniormars.com/redux"
+
+# Of course, credit to not-matthias
+
 
 # Any variable there can be overridden in the end user `config.toml`
 # You don't need to prefix variables by the theme name but as this will
@@ -12,5 +15,5 @@ demo = "https://not-matthias.github.io/apollo"
 [extra]
 
 [author]
-name = "not-matthias"
-homepage = "https://github.com/not-matthias"
+name = "seniormars"
+homepage = "https://github.com/seniormars"
