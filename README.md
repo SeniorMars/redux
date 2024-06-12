@@ -1,4 +1,4 @@
-# apollo
+# apollo-redux
 
 Modern and minimalistic blog theme powered by [Zola](https://getzola.org). See a live preview [here](https://not-matthias.github.io/apollo).
 
