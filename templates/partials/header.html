@@ -74,11 +74,6 @@
         <script src={{ get_url(path="js/clipboard.js") }}></script>
     {% endif %}
 
-    {# Font Awesome #}
-    {% if config.extra.fontawesome %}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
-    {% endif %}
-
     {# Font from cdn or disk #}
     {% if config.extra.use_cdn | default(value=false) %}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jetbrains-mono@1.0.6/css/jetbrains-mono.min.css">

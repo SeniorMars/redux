@@ -18,6 +18,11 @@ favicon = "/icon/favicon.png"
 theme = "toggle"              # light, dark, auto, toggle
 comment = false
 codeblock_clipboard = true
+<<<<<<< HEAD
+=======
+# mathjax = true
+# mathjax_dollar_inline_enable = true
+>>>>>>> fixes
 
 menu = [
     { name = "/posts", url = "/posts", weight = 1 },
