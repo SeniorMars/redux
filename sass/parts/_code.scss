@@ -23,14 +23,19 @@
 $language-colors: (
   "js": (#f7df1e, "JavaScript"),
   "yaml": (#f71e6a, "YAML"),
-  "shell": (#4eaa25, "Shell"),  // Updated to a more specific green shade
+  "shell": (#4eaa25, "Shell"),
+  // Updated to a more specific green shade
   "json": (dodgerblue, "JSON"),
-  "python": (#3572A5, "Python"),  // Using the specific Python blue
+  "python": (#3572A5, "Python"),
+  // Using the specific Python blue
   "css": (#264de4, "CSS"),
-  "go": (#00ADD8, "Go"),  // Official Go color
+  "go": (#00ADD8, "Go"),
+  // Official Go color
   "markdown": (#0000ff, "Markdown"),
-  "rust": (#ff4647, "Rust"),  // Adjusted to match Rust's branding
-  "java": (#f89820, "Java"),  // Oracle Java color
+  "rust": (#ff4647, "Rust"),
+  // Adjusted to match Rust's branding
+  "java": (#f89820, "Java"),
+  // Oracle Java color
   "csharp": (#178600, "C#"),
   "ruby": (#701516, "Ruby"),
   "swift": (#f05138, "Swift"),
@@ -48,12 +53,12 @@ $language-colors: (
 );
 
 
-  // Mixin for base label style
+// Mixin for base label style
 @mixin base-label-style($language) {
   $color-info: map-get($language-colors, $language);
   $bg-color: nth($color-info, 1);
   $label: nth($color-info, 2);
-  
+
   content: $label;
   background: $bg-color;
   color: var(--text-color);
@@ -70,9 +75,11 @@ $language-colors: (
 }
 
 pre {
-  padding: 1em 2em; /* Increase right padding to give more space for the button */
+  padding: 1em 2em;
+  /* Increase right padding to give more space for the button */
   position: relative;
-  overflow: auto; /* Ensure this does not hide the button */
+  overflow: auto;
+  /* Ensure this does not hide the button */
 }
 
 
@@ -91,7 +98,8 @@ pre {
   border: 1px solid var(--border-color);
   line-height: 1.4;
   overflow-x: auto;
-  padding: 1em; /* Ensure padding is sufficient for icon visibility */
+  padding: 1em;
+  /* Ensure padding is sufficient for icon visibility */
   position: relative;
 
   code {
@@ -110,4 +118,19 @@ pre {
       }
     }
   }
+}
+
+.clipboard-button,
+.clipboard-button svg {
+  all: unset;
+  /* This resets all inherited properties */
+  cursor: pointer;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  z-index: 10;
+  background-color: transparent;
+  border: none;
+  fill: #ef5350;
+  /* Specific color for the icon */
 }
