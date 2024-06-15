@@ -110,13 +110,9 @@
             {{ post_macros::page_header(title=page.title) }}
 
                 <div class="meta">
-                    {% if page.date %}
-                        Posted on <time>{{ page.date | date(format="%Y-%m-%d") }}</time>
-                    {% endif %}
+                    {% if page.date %}Posted on <time>{{ page.date | date(format="%Y-%m-%d") }}</time>{% endif %}
 
-                    {% if page.updated %}
-                        :: Modified on <time>{{ page.updated | date(format="%Y-%m-%d") }}</time>
-                    {% endif %}
+                    {% if page.updated %}:: Modified on <time>{{ page.updated | date(format="%Y-%m-%d") }}</time>{% endif %}
 
                     {# Inline display of tags directly after the date #}
                     {%- if page.taxonomies and page.taxonomies.tags %}
