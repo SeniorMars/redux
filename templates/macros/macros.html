@@ -115,7 +115,21 @@
                     {% endif %}
 
                     {% if page.updated %}
-                        :: Modified on <time>{{ page.updated | date(format="%Y-%m-%d") }}</time>
+                        :: Updated on <time>{{ page.updated | date(format="%Y-%m-%d") }}</time>
+                    {% endif %}
+
+                    {% if page.extra.read_time %}
+                        :: <time>{{ page.reading_time }}</time> Min Read
+                    {% endif %}
+
+                    {# Inline display of tags directly after the date #}
+                    {% if page.taxonomies and page.taxonomies.tags %}
+                            <span class="tags-label"> :: Tags</span>
+                            <span class="tags">
+                                {%- for tag in page.taxonomies.tags %}
+                                    <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="post-tag">{{ tag }}</a>{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </span>
                     {% endif %}
 
                     {# View the page on GitHub #}
@@ -134,17 +148,6 @@
                             {% set final_url = repo_url ~ page.relative_path %}
                             :: <a href="{{ final_url }}" target="_blank" rel="noopener noreferrer"> Source Code</a>
                         {% endif %}
-                    {% endif %}
-
-                    {# Inline display of tags directly after the date #}
-                    {% if page.taxonomies and page.taxonomies.tags %}
-                        <span> :: Tags:
-                            <span class="tags">
-                                {%- for tag in page.taxonomies.tags %}
-                                    <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="post-tag">{{ tag }}</a>{% if not loop.last %}, {% endif %}
-                                {% endfor %}
-                            </span>
-                        </span>
                     {% endif %}
 
                     {% if page.draft %}

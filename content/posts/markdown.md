@@ -4,10 +4,11 @@ date = "2022-01-01"
 updated = "2024-06-14"
 
 [taxonomies]
-tags=["blog"]
+tags=["educational", "tutorial"]
 
 [extra]
 repo_view = true
+read_time = true
 +++
 
 # H1
