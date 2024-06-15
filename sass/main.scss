@@ -6,14 +6,15 @@
 @import "parts/misc.scss";
 @import "parts/table.scss";
 @import "parts/tags.scss";
+@import "parts/note.scss";
 
 :root {
   /* Used for: block comment, hr, ... */
   --border-color: var(--bg-1);
 
   /* Fonts */
-  --text-font: 'Jetbrains Mono';
   --header-font: 'Space Grotesk', 'Helvetica', sans-serif;
+  --text-font: 'Jetbrains Mono'; // I hate this font for text
   --code-font: 'Jetbrains Mono';
 }
 
