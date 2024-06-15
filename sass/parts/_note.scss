@@ -1,6 +1,6 @@
 :root {
   --bg-primary: #f0f0f0; // Updated light theme background color
-  --note-color: #f0f0f0;
+  --note-color: #ebdbb2;
   --note-bg: #ef534f;
   --header-color: rgb(15, 20, 25);
 }
@@ -19,7 +19,7 @@
   position: relative;
   padding-left: 4px;
   background-color: var(--note-color);
-
+  font-family: var(--paragraph-font);
 }
 
 .note-toggle,

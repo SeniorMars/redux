@@ -14,8 +14,9 @@
 
   /* Fonts */
   --header-font: 'Space Grotesk', 'Helvetica', sans-serif;
-  --text-font: 'Jetbrains Mono'; // I hate this font for text
+  --text-font: 'Jetbrains Mono';
   --code-font: 'Jetbrains Mono';
+  --paragraph-font: 'Source Serif 4';
 }
 
 html {
@@ -23,6 +24,14 @@ html {
   color: var(--text-0);
   font-family: var(--text-font);
   line-height: 1.6em;
+}
+
+time {
+  font-family: var(--text-font);
+}
+
+p, ol, ul, li, table, details {
+  font-family: var(--paragraph-font);
 }
 
 .content {

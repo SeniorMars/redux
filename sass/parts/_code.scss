@@ -1,6 +1,6 @@
 // Define base colors and fonts for light and dark themes
 :root {
-    --bg-primary: #f0f0f0; // Updated light theme background color
+    --bg-primary: #DCEBFF; // Updated light theme background color
     --border-color: #ccc; // Light theme border color
     --code-font: 'Courier New', monospace; // Code font
 
@@ -78,6 +78,7 @@ $language-colors: (
 }
 
 pre {
+    background-color: var(--bg-primary) !important;
     padding: 1em 2em;
     /* Increase right padding to give more space for the button */
     position: relative;
@@ -102,7 +103,6 @@ pre {
     line-height: 1.4;
     overflow-x: auto;
     padding: 1em;
-    /* Ensure padding is sufficient for icon visibility */
     position: relative;
 
     mark {
@@ -113,7 +113,7 @@ pre {
 
     code {
         background-color: transparent !important;
-        color: inherit;
+        color: var(--text-color);
         font-size: 100%;
         padding: 0;
         border: none;
@@ -121,12 +121,13 @@ pre {
         table {
             margin: 0;
             border-collapse: collapse;
+            font-family: var(--code-font);
 
             mark {
                 display: block;
                 color: unset;
                 padding: 0;
-                background-color: var(--hightlight-color);
+                background-color: var(--hightlight-color) !important;
                 filter: brightness(1.2); // Example to slightly increase brightness
             }
 
