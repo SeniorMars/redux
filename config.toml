@@ -15,10 +15,12 @@ highlight_theme = "ayu-dark"
 toc = true
 use_cdn = false
 favicon = "/icon/favicon.png"
+favicon_extra = false
 theme = "toggle"              # light, dark, auto, toggle
 comment = false
 codeblock_clipboard = true
 dynamic_note = true
+
 
 menu = [
     { name = "/posts", url = "/posts", weight = 1 },
