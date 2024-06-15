@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var content = this.nextElementSibling;
       var expanded = this.getAttribute('aria-expanded') === 'true' || false;
       this.setAttribute('aria-expanded', !expanded);
-      content.style.display = !expanded ? 'block' : 'none';
+      content.style.display = !expanded ? 'none' : 'block';
     });
   });
 });
