@@ -6,6 +6,8 @@ updated = "2024-06-14"
 [taxonomies]
 tags=["blog"]
 
+[extra]
+repo_view = true
 +++
 
 # H1
