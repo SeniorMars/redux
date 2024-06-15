@@ -1,9 +1,7 @@
 +++
 title = "Markdown Test"
 date = "2022-01-01"
-
-[extra]
-modified = "2024-06-14"
+updated = "2024-06-14"
 
 [taxonomies]
 tags=["blog"]

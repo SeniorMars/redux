@@ -91,6 +91,17 @@
     </div>
 {% endmacro content %}
 
+{% macro home_page(section) %}
+<main>
+    <article>
+        <section class="body">
+            {{post_macros::page_header(title=section.title)}}
+            {{ section.content | safe }}
+        </section>
+    </article>
+</main>
+{% endmacro home_page %}
+
 {% macro content(page) %}
 <main>
     <article>
@@ -103,8 +114,8 @@
                         Posted on <time>{{ page.date | date(format="%Y-%m-%d") }}</time>
                     {% endif %}
 
-                    {% if page.extra.modified %}
-                        :: Modified on <time>{{ page.extra.modified | date(format="%Y-%m-%d") }}</time>
+                    {% if page.updated %}
+                        :: Modified on <time>{{ page.updated | date(format="%Y-%m-%d") }}</time>
                     {% endif %}
 
                     {# Inline display of tags directly after the date #}
