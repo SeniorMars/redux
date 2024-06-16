@@ -3,10 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const tocList = document.querySelector('.toc-list');
 
     if (tocTitle && tocList) {
-        tocTitle.addEventListener('click', function () {
+        const toggleToC = () => {
             const isExpanded = tocList.style.display === 'block' || window.getComputedStyle(tocList).display === 'block';
             tocList.style.display = isExpanded ? 'none' : 'block';
             tocTitle.classList.toggle('expanded', !isExpanded);
-        });
+        };
+
+        tocTitle.addEventListener('click', toggleToC);
+        tocTitle.addEventListener('touchstart', toggleToC);
     }
 });
+
