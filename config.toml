@@ -20,6 +20,7 @@ theme = "toggle"              # light, dark, auto, toggle
 comment = false
 fancy_code = true
 dynamic_note = true
+h_anchor_link = true
 repo_url = "https://github.com/SeniorMars/seniormars.com/blob/main/content/"
 
 menu = [
