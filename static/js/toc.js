@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         tocTitle.addEventListener('click', toggleToC);
-        tocTitle.addEventListener('touchstart', toggleToC);
     }
 });
 

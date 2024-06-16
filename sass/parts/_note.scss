@@ -77,3 +77,12 @@
   background-size: contain;
   background-repeat: no-repeat;
 }
+
+summary:hover,
+summary:focus {
+  color: var(--note-color);
+  background-color: var(--note-bg);
+  outline: none;
+  padding: 10px;
+}
+

@@ -5,7 +5,7 @@
       {{ header | safe }}
     </button>
     <div class="note-content" style="display: block;">
-      {{ text | safe }}
+      {{ body | markdown | safe }}
     </div>
   {% else %}
     <div class="note-header">
@@ -13,7 +13,7 @@
       {{ header | safe }}
     </div>
     <div class="note-content">
-      {{ text | safe }}
+      {{ body | markdown | safe }}
     </div>
   {% endif %}
 </div>
