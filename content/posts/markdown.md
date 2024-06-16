@@ -99,13 +99,13 @@ This one is static!
 {{ note(header="Note!", body="This blog assumes basic terminal maturity") }}
 
 This one is clickable!
-{{ note(clickable=true, header="Quiz!", body="The answer to the quiz!") }}
+{{ note(clickable=true, hidden = true, header="Quiz!", body="The answer to the quiz!") }}
 
 
 Syntax:
 ```
 {{/* note(header="Note!", body="This blog assumes basic terminal maturity") */}}
-{{/* note(clickable=true, header="Quiz!", body="The answer to the quiz!") */}}
+{{/* note(clickable=true, hidden = true, header="Quiz!", body="The answer to the quiz!") */}}
 ```
 
 You can also use some HTML in the text:

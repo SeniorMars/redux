@@ -4,9 +4,14 @@
       <span class="note-icon"></span>
       {{ header | safe }}
     </button>
-    <div class="note-content" style="display: block;">
+
+      {% if hidden | default(value=false) %}
+      <div class="note-content" style="display: none;">
+      {% else %}
+      <div class="note-content" style="display: block;">
+      {% endif %}
       {{ body | markdown | safe }}
-    </div>
+      </div>
   {% else %}
     <div class="note-header">
       <span class="note-icon"></span>
