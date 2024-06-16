@@ -24,8 +24,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ```rust
 fn main() {
-    println!("Hello World");
+    println!("Hello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello World")
 }
+```
+
+```random
+Random text
 ```
 
 

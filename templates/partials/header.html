@@ -119,9 +119,9 @@
         {% endif %}
     {% endif %}
 
-    {# CodeBlock Clipboard #}
-    {% if config.extra.codeblock_clipboard %}
-        <script src={{ get_url(path="js/clipboard.js") }}></script>
+    {# Fancy Codeblock #}
+    {% if config.extra.fancy_code %}
+        <script src={{ get_url(path="js/codeblock.js") }}></script>
     {% endif %}
 
     {# Table of contents #}

@@ -4,14 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (tocTitle && tocList) {
         tocTitle.addEventListener('click', function () {
-            const isExpanded = tocList.style.display === 'block';
+            const isExpanded = tocList.style.display === 'block' || window.getComputedStyle(tocList).display === 'block';
             tocList.style.display = isExpanded ? 'none' : 'block';
-
-            if (isExpanded) {
-                tocTitle.classList.remove('expanded');
-            } else {
-                tocTitle.classList.add('expanded');
-            }
+            tocTitle.classList.toggle('expanded', !isExpanded);
         });
     }
 });

@@ -53,47 +53,33 @@ $language-colors: (
     "elixir": (#6e4a7e, "Elixir"),
     "clojure": (#5881d8, "Clojure"),
     "bash": (#4eaa25, "Bash"),
+    "default": (#333, "Code"),
 );
 
-
-// Mixin for base label style
-@mixin base-label-style($language) {
-    $color-info: map-get($language-colors, $language);
-    $bg-color: nth($color-info, 1);
-    $label: nth($color-info, 2);
-
-    content: $label;
+@mixin base-label-style($bg-color, $text-color: var(--text-color)) {
     background: $bg-color;
-    color: var(--text-color);
+    color: $text-color;
     border-radius: 0 0 0.25rem 0.25rem;
     font-size: 12px;
     letter-spacing: 0.025rem;
     padding: 0.1rem 0.5rem;
-    position: absolute;
-    right: 0.1rem;
-    top: 0;
-    margin-top: 0.1rem;
     text-align: right;
     text-transform: uppercase;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 0.1rem;
 }
 
-pre {
-    background-color: var(--bg-primary) !important;
-    padding: 1em 2em;
-    /* Increase right padding to give more space for the button */
-    position: relative;
-    overflow: auto;
-    /* Ensure this does not hide the button */
+// Example usage within a specific class for clarity
+.code-label {
+    @include base-label-style(#333); // Default background color
 }
 
-
-// Dynamic styling for code blocks
-code {
-    background-color: var(--bg-primary);
-    padding: 0.1em 0.2em;
-    border-radius: 5px;
-    border: 1px solid var(--border-color);
-    font-family: var(--code-font);
+@each $lang, $color-info in $language-colors {
+    .label-#{$lang} {
+        @include base-label-style(nth($color-info, 1));
+    }
 }
 
 pre {
@@ -117,6 +103,7 @@ pre {
         font-size: 100%;
         padding: 0;
         border: none;
+        font-family: var(--code-font);
 
         table {
             margin: 0;
@@ -153,28 +140,17 @@ pre {
             background-color: unset;
         }
     }
-
-    // Apply the base label style and customize based on language
-    code[class*="language-"] {
-        @each $language, $_ in $language-colors {
-            &.language-#{$language}::before {
-                @include base-label-style($language);
-            }
-        }
-    }
 }
 
 .clipboard-button,
 .clipboard-button svg {
     all: unset;
-    /* This resets all inherited properties */
     cursor: pointer;
     position: absolute;
-    bottom: 5px;
-    right: 5px;
+    bottom: 5px; /* 5px from the bottom */
+    right: 5px; /* 5px from the right */
     z-index: 10;
     background-color: transparent;
     border: none;
-    fill: #ef5350;
-    /* Specific color for the icon */
+    fill: #ef5350; /* Sets the color of the SVG, assuming it's an SVG icon */
 }
