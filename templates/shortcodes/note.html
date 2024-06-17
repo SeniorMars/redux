@@ -1,8 +1,14 @@
 <div class="note-container">
   {% if clickable | default(value=false) %}
     <button class="note-toggle">
-      <span class="note-icon"></span>
-      {{ header | markdown | safe }}
+      {% if center | default(value=false) %}
+        <div class="note-center">
+        {{ header | markdown | safe }}
+        </div>
+      {% else %}
+        <span class="note-icon"></span>
+        {{ header | markdown | safe }}
+      {% endif %}
     </button>
 
       {% if hidden | default(value=false) %}
@@ -14,8 +20,14 @@
       </div>
   {% else %}
     <div class="note-header">
-      <span class="note-icon"></span>
-      {{ header | markdown | safe }}
+      {% if center | default(value=false) %}
+        <div class="note-center">
+        {{ header | markdown | safe }}
+        </div>
+      {% else %}
+        <span class="note-icon"></span>
+        {{ header | markdown | safe }}
+      {% endif %}
     </div>
     <div class="note-content">
       {{ body | markdown | safe }}

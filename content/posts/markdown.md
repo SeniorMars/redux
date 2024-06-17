@@ -153,6 +153,14 @@ We can't call another shortcode inside a shortcode, but this is good enough.
 {{/* end */}}
 ```
 
+Finally, we have center
+{{ note(center=true, header="Centered Text", body="This is centered text") }}
+
+```markdown
+{{/* note(center=true, header="Centered Text", body="This is centered text") */}}
+```
+
+
 It works good enough for me!
 
 Testing[^1]

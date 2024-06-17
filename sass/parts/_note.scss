@@ -82,6 +82,14 @@
   background-repeat: no-repeat;
 }
 
+.note-header > .note-center, 
+.note-toggle > .note-center {
+  text-align: center;
+  padding-left: 0; /* Reset the left padding */
+  padding-right: 0;
+  margin-left: -100px;
+}
+
 summary:hover,
 summary:focus {
   color: var(--note-color);
