@@ -2,7 +2,7 @@
   {% if clickable | default(value=false) %}
     <button class="note-toggle">
       <span class="note-icon"></span>
-      {{ header | safe }}
+      {{ header | markdown | safe }}
     </button>
 
       {% if hidden | default(value=false) %}
@@ -15,7 +15,7 @@
   {% else %}
     <div class="note-header">
       <span class="note-icon"></span>
-      {{ header | safe }}
+      {{ header | markdown | safe }}
     </div>
     <div class="note-content">
       {{ body | markdown | safe }}
