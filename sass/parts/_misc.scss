@@ -39,6 +39,25 @@ blockquote {
   padding-left: 1em;
 }
 
+.footnote-definition {
+  sup {
+    color: var(--primary-color);
+    font-size: inherit;
+    vertical-align: baseline;
+  }
+
+  sup::after {
+    content: ': ';
+  }
+
+  sup+p {
+    display: inline;
+    margin-left: 5px;
+    /* Adjust spacing to your preference */
+  }
+
+}
+
 a {
   border-bottom: 3px solid var(--primary-color);
   color: inherit;
@@ -72,8 +91,8 @@ time {
 
 // change the line-through color
 del {
-    text-decoration-color: var(--primary-color);
-    text-decoration-thickness: 3px;
+  text-decoration-color: var(--primary-color);
+  text-decoration-thickness: 3px;
 }
 
 @media all and (max-width: 640px) {

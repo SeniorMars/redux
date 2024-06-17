@@ -154,3 +154,7 @@ We can't call another shortcode inside a shortcode, but this is good enough.
 ```
 
 It works good enough for me!
+
+Testing[^1]
+
+[^1]: hello
