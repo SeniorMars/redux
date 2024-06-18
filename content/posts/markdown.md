@@ -91,7 +91,7 @@ fn main() {
 Lorem ipsum `dolor` sit amet, `consectetur adipiscing` elit. 
 `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`
 
-## Testing
+## Note
  
 Here is an example of the `note` shortcode:
 
