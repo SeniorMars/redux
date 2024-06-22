@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    const headings = document.querySelectorAll('h1:not(.toc-title), h2, h3, h4, h5, h6');
     const idCounts = {}; // Object to keep track of IDs and their occurrences
 
     headings.forEach((heading) => {
