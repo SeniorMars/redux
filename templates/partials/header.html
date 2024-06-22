@@ -141,16 +141,32 @@
 
     {% if config.extra.mathjax | default(value=false) %}
         {% if config.extra.mathjax_dollar_inline_enable | default(value=false) %}
-            <script>
-            MathJax = {
-              tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']]
-              }
-            };
+            <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                extensions: ["tex2jax.js"], // Load only the tex2jax extension
+                tex2jax: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true
+                },
+                "HTML-CSS": {
+                    linebreaks: {
+                        automatic: true,
+                        width: "container"   // Use "container" or a specific width like "90%"
+                    }
+                },
+                SVG: {
+                    linebreaks: {
+                        automatic: true,
+                        width: "container"   // Use "container" or a specific width like "90%"
+                    },
+                    font: "TeX"
+                }
+            });
             </script>
         {% endif %}
-        <script type="text/javascript" id="MathJax-script" async
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_CHTML">
         </script>
     {% endif %}
 

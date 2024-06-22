@@ -15,13 +15,15 @@ highlight_theme = "ayu-dark"
 toc = true
 use_cdn = false
 favicon = "/icon/favicon.png"
-favicon_extra = true
+favicon_extra = false
 theme = "toggle"              # light, dark, auto, toggle
 comment = false
 fancy_code = true
 dynamic_note = true
 h_anchor_link = true
 repo_url = "https://github.com/SeniorMars/seniormars.com/blob/main/content/"
+mathjax = true
+mathjax_dollar_inline_enable = true
 
 menu = [
     { name = "/posts", url = "/posts", weight = 1 },
