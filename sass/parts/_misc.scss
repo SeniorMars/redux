@@ -139,7 +139,13 @@ del {
   }
 }
 
-.MathJax_Display, .MJXc-display, .MathJax_SVG_Display {
-    overflow-x: auto;
-    overflow-y: hidden;
+.MathJax_Display,
+.MJXc-display,
+.MathJax_SVG_Display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#MathJax_Message {
+  display: none !important;
 }

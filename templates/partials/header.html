@@ -143,7 +143,7 @@
         {% if config.extra.mathjax_dollar_inline_enable | default(value=false) %}
             <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
-                extensions: ["tex2jax.js"], // Load only the tex2jax extension
+                extensions: ["tex2jax.js", "fast-preview.js"],
                 tex2jax: {
                     inlineMath: [['$', '$'], ['\\(', '\\)']],
                     displayMath: [['$$', '$$'], ['\\[', '\\]']],
@@ -161,6 +161,9 @@
                         width: "container"   // Use "container" or a specific width like "90%"
                     },
                     font: "TeX"
+                },
+                "fast-preview": {
+                    disabled: false
                 }
             });
             </script>
@@ -172,7 +175,6 @@
 
     {# RSS #}
     <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path="atom.xml", trailing_slash=false) }}">
-
 
     {% set theme = config.extra.theme %}
     {% if theme == "dark" %}
@@ -205,6 +207,12 @@
         <script>setTheme(getSavedTheme());</script>
     {% endif %}
 
+    {# Search #}
+    {% if config.extra.search %}
+        <script src={{ get_url(path="js/search.js") }}></script>
+    {% endif %}
+
+    {# Custom CSS #}
     <link rel="stylesheet" type="text/css" media="screen" href={{ get_url(path="main.css") }} />
 
     {% if config.extra.stylesheets %}
