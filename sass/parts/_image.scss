@@ -36,21 +36,15 @@ svg {
 
 video {
   border: 3px solid #ffffff;
-  /* White border */
   max-width: 100%;
-  display: block;
-  margin: 0 auto;
-  /* Center video horizontally */
 }
 
 @media screen and (min-width: 600px) {
   video {
     padding: 0 40px;
-    /* Padding on larger screens, similar to the figure */
   }
 }
 
 video source {
   max-height: 500px;
-  /* Limit video height */
 }
