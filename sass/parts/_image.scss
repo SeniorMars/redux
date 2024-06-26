@@ -39,12 +39,6 @@ video {
   max-width: 100%;
 }
 
-@media screen and (min-width: 600px) {
-  video {
-    padding: 0 40px;
-  }
-}
-
 video source {
   max-height: 500px;
 }
