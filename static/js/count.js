@@ -152,6 +152,7 @@
 
 		var img = document.createElement('img')
 		img.src = url
+		img.id = 'hiddenImage';  // Adding an ID to the image
 		img.style.position = 'absolute'  // Affect layout less.
 		img.style.bottom = '0px'
 		img.style.width = '1px'
