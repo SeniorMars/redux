@@ -23,7 +23,7 @@ fancy_code = true
 dynamic_note = true
 repo_url = "https://github.com/SeniorMars/seniormars.com/blob/main/content/"
 mathjax = true
-mathjax_dollar_inline_enable = true
+mathjax_extra = true
 
 menu = [
     { name = "/posts", url = "/posts", weight = 1 },

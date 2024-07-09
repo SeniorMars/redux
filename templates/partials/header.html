@@ -135,7 +135,7 @@
     {% endif %}
 
     {% if config.extra.mathjax | default(value=false) %}
-        {% if config.extra.mathjax_dollar_inline_enable | default(value=false) %}
+        {% if config.extra.mathjax_extra | default(value=false) %}
             <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
                 extensions: ["tex2jax.js", "fast-preview.js"],
@@ -147,13 +147,13 @@
                 "HTML-CSS": {
                     linebreaks: {
                         automatic: true,
-                        width: "container"   // Use "container" or a specific width like "90%"
+                        width: "container"
                     }
                 },
                 SVG: {
                     linebreaks: {
                         automatic: true,
-                        width: "container"   // Use "container" or a specific width like "90%"
+                        width: "container"
                     },
                     font: "TeX"
                 },
