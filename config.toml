@@ -10,7 +10,11 @@ taxonomies = [{ name = "tags" }]
 
 [markdown]
 highlight_code = true
+render_emoji = true
+smart_punctuation = true
 highlight_theme = "ayu-dark"
+external_links_no_referrer = true
+bottom_footnotes = true
 
 [extra]
 toc = true

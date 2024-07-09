@@ -39,23 +39,8 @@ blockquote {
   padding-left: 1em;
 }
 
-.footnote-definition {
-  sup {
-    color: var(--primary-color);
-    font-size: inherit;
-    vertical-align: baseline;
-  }
-
-  sup::after {
-    content: ': ';
-  }
-
-  sup+p {
-    display: inline;
-    margin-left: 5px;
-    /* Adjust spacing to your preference */
-  }
-
+.footnotes-list li::marker {
+  color: var(--primary-color); /* Replace --primary-color with your desired color */
 }
 
 a {
