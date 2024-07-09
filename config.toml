@@ -2,6 +2,7 @@ base_url = "https://seniormars.github.io/redux/"
 title = "seniormars"
 description = "This is an example description"
 build_search_index = false
+feed_filenames = ["rss.xml"]
 generate_feeds = true
 compile_sass = true
 minify_html = true
@@ -33,8 +34,9 @@ menu = [
 
 # keep for now
 socials = [
-    { name = "twitter", url = "https://twitter.com/not_matthias", icon = "twitter" },
-    { name = "github", url = "https://github.com/not-matthias/", icon = "github" },
+    { name = "github", url = "https://github.com/seniormars/", icon = "github" },
+    { name = "youtube", url = "https://www.youtube.com/seniormarstries", icon = "youtube" },
+    { name = "rss", url = "/rss.xml", icon = "rss" },
 ]
 
 custom_css = []

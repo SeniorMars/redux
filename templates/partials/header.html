@@ -169,7 +169,9 @@
     {% endif %}
 
     {# RSS #}
-    <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path="atom.xml", trailing_slash=false) }}">
+    {% block rss %}
+        <link rel="alternate" type="application/rss+xml" title="{{config.title}}" href="{{ get_url(path="rss.xml", trailing_slash=false) }}">
+    {% endblock %}
 
     {% set theme = config.extra.theme %}
     {% if theme == "dark" %}
