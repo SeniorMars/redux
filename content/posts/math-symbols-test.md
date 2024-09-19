@@ -15,3 +15,18 @@ date = "2023-01-06"
 $$
 p := (\sum_{k∈I}{c_k.v_k} + \delta_v.t(x))·(\sum_{k∈I}{c_k.w_k} + \delta_w.t(x)) − (\sum_{k∈I}{c_k.y_k} + \delta_y.t(x))
 $$
+
+Proof tree:
+
+$$
+\begin{prooftree}
+\AxiomC{$f : A \rightarrow B$}
+\AxiomC{$g : \neg B = B \rightarrow \bot$}
+\AxiomC{$x : A$}
+\UnaryInfC{$f(x) : B$}
+\UnaryInfC{$g(f(x)) : \bot$}
+\UnaryInfC{$h : A \rightarrow \bot$}
+\BinaryInfC{$h \in \neg A$}
+\BinaryInfC{$f \rightarrow g \rightarrow \neg A$}
+\end{prooftree}
+$$

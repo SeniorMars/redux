@@ -136,35 +136,19 @@
 
     {% if config.extra.mathjax | default(value=false) %}
         {% if config.extra.mathjax_extra | default(value=false) %}
-            <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({
-                extensions: ["tex2jax.js", "fast-preview.js"],
-                tex2jax: {
-                    inlineMath: [['$', '$'], ['\\(', '\\)']],
-                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                    processEscapes: true
-                },
-                "HTML-CSS": {
-                    linebreaks: {
-                        automatic: true,
-                        width: "container"
-                    }
-                },
-                SVG: {
-                    linebreaks: {
-                        automatic: true,
-                        width: "container"
-                    },
-                    font: "TeX"
-                },
-                "fast-preview": {
-                    disabled: false
-                }
-            });
-            </script>
+        <script>
+            MathJax = {
+              tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+              },
+              svg: {
+                fontCache: 'global'
+              }
+            };
+        </script>
         {% endif %}
-        <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_CHTML">
+        <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.7/tex-mml-chtml.js">
         </script>
     {% endif %}
 
@@ -204,10 +188,11 @@
         <script>setTheme(getSavedTheme());</script>
     {% endif %}
 
-    {# Search #}
+    {# Search
     {% if config.extra.search %}
         <script src={{ get_url(path="js/search.js") }}></script>
     {% endif %}
+    #}
 
     {# Custom CSS #}
     <link rel="stylesheet" type="text/css" media="screen" href={{ get_url(path="main.css") }} />
