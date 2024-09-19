@@ -138,9 +138,8 @@
         {% if config.extra.mathjax_extra | default(value=false) %}
         <script>
             MathJax = {
-              loader: { load: ['input/ascimath'] },
+              loader: { load: ['input/asciimath'] },
               output: {
-                  displayAlign: 'left',
                   displayOverflow: 'linebreak',
                       linebreaks: {
                           inline: true,
@@ -150,7 +149,7 @@
                   }
               },
               tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                inlineMath: [['$', '$']],
                 processEscapes: true,
               },
               svg: {
