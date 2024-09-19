@@ -138,8 +138,20 @@
         {% if config.extra.mathjax_extra | default(value=false) %}
         <script>
             MathJax = {
+              loader: { load: ['input/ascimath'] },
+              output: {
+                  displayAlign: 'left',
+                  displayOverflow: 'linebreak',
+                      linebreaks: {
+                          inline: true,
+                          width: '100%',
+                          lineleading: .2,
+                          LinebreakVisitor: null,
+                  }
+              },
               tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']]
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                processEscapes: true,
               },
               svg: {
                 fontCache: 'global'
