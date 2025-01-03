@@ -24,7 +24,7 @@
 
             <div>
                 <h1 class="title">
-                    <a href={{ page.permalink }}>{{page.title}}</a>
+                    <a href={{ page.permalink | safe }}>{{page.title}}</a>
 
                     {% if page.draft %}
                     <span class="draft-label">DRAFT</span>
@@ -43,7 +43,7 @@
                     </div>
 
                     {% if not hide_read_more %}
-                    <a class="readmore" href={{ page.permalink }}>Read more ⟶</a>
+                    <a class="readmore" href={{ page.permalink | safe }}>Read more ⟶</a>
                     {% endif %}
                 </div>
             </div>
@@ -133,7 +133,7 @@
                     {% endif %}
 
                     {# View the page on GitHub #}
-                    {% if page.extra.repo_view | default(value=false) %}
+                    {% if page.extra.repo_view | default(value=config.extra.repo_view) | default(value=false) %}
 
                         {# Use the page's repo_url if defined, otherwise use the global edit_repo_url #}
                         {% if page.extra.repo_url is defined %}
@@ -223,7 +223,7 @@
                     {% if page.extra.link_to %}
                     <a href={{ page.extra.link_to }}>{{page.title}}</a>
                     {% else %}
-                    <a href={{ page.permalink }}>{{page.title}}</a>
+                    <a href={{ page.permalink | safe }}>{{page.title}}</a>
                     {% endif %}
                 </h1>
 

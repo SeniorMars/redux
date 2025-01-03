@@ -199,12 +199,6 @@
         <script>setTheme(getSavedTheme());</script>
     {% endif %}
 
-    {# Search
-    {% if config.extra.search %}
-        <script src={{ get_url(path="js/search.js") }}></script>
-    {% endif %}
-    #}
-
     {# Custom CSS #}
     <link rel="stylesheet" type="text/css" media="screen" href={{ get_url(path="main.css") }} />
 
@@ -212,5 +206,10 @@
         {% for stylesheet in config.extra.stylesheets %}
             <link rel="stylesheet" href="{{ get_url(path=stylesheet) }}">
         {% endfor %}
+    {% endif %}
+
+    {# Mermaid #}
+    {% if config.extra.mermaid | default(value=false) %}
+        <script src={{ get_url(path="js/mermaid.js") }}></script>
     {% endif %}
 </head>

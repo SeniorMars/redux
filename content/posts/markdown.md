@@ -165,4 +165,16 @@ It works good enough for me!
 
 Testing[^1]
 
+{% mermaid() %}
+graph LR
+    A[Start] --> B[Initialize]
+    B --> C[Processing]
+    C --> D[Complete]
+    D --> E[Success]
+    
+    style A fill:#f9f,stroke:#333
+    style E fill:#9f9,stroke:#333
+{% end %}
+
+
 [^1]: hello
