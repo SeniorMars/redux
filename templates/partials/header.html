@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="base" content="{{ config.base_url }}">
 
     {% if page.extra.meta %}
          <!-- the meta data config goes here  -->
@@ -63,6 +64,15 @@
              <meta name="description" content="{{ config.description }}" />
          {% endif %}
     {% endif %}
+
+    {%- if config.extra.browser_theme_color and config.extra.browser_theme_color is iterable -%}
+        {# Handle array values: theme_color[0] for light mode, theme_color[1] for dark mode #}
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="{{ config.extra.browser_theme_color[0] }}" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="{{ config.extra.browser_theme_color[1] }}" />
+    {%- elif config.extra.browser_theme_color -%}
+        {# Handle single value #}
+        <meta name="theme-color" content="{{ config.extra.browser_theme_color }}" />
+    {%- endif -%}
 
     {# Favicon #}
     {% if config.extra.favicon %}
@@ -212,4 +222,25 @@
     {% if config.extra.mermaid | default(value=false) %}
         <script src={{ get_url(path="js/mermaid.js") }}></script>
     {% endif %}
+
+    {# Search #}
+    {%- if config.build_search_index -%}
+        {%- if config.search.index_format -%}
+            {%- set search_index_format = config.search.index_format -%}
+        {%- elif config.extra.index_format -%}
+            {# Necessary to support Zola 0.17.X, as it doesn't have access to config.search.index_format #}
+            {# See: https://github.com/getzola/zola/issues/2165 #}
+            {%- set search_index_format = config.extra.index_format -%}
+        {%- else -%}
+            {%- set search_index_format = "elasticlunr_json" -%}
+        {%- endif -%}
+
+        {%- if search_index_format == "elasticlunr_javascript" -%}
+            <script defer src="{{ get_url(path='search_index.' ~ lang ~ '.js', cachebust=true) | safe }}"></script>
+        {%- endif -%}
+
+        {# Main search script #}
+        <script defer src="{{ get_url(path='js/searchElasticlunr.min.js', cachebust=true) | safe }}"></script>
+    {%- endif -%}
+
 </head>

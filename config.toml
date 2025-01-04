@@ -42,8 +42,7 @@ repo_url = "https://github.com/SeniorMars/seniormars.com/blob/main/content/"
 mathjax = true
 mathjax_extra = true
 mermaid = true
-browser_theme_color = ["#FFF", "#0E1018"]
-index_format = "elasticlunr_javascript" # or "elasticlunr_json"
+browser_theme_color = ["#FFFFFF", "#0E1018"]
 
 menu = [
     { name = "/posts", url = "/posts", weight = 1 },
