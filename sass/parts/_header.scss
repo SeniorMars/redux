@@ -103,6 +103,19 @@ header .socials {
     }
 }
 
+.nav-item,
+.search-button {
+    margin-left: 0.4em;
+}
+
+// Mobile styles
+@media only screen and (max-width: 600px) {
+    .nav-item,
+    .search-button {
+        margin-left: 0.1em;
+    }
+}
+
 .meta {
     color: #999;
     display: flexbox;
