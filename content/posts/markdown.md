@@ -137,21 +137,21 @@ We can't call another shortcode inside a shortcode, but this is good enough.
 
 Here is the raw markdown:
 
-```markdown
+````markdown
 {{/* note(clickable=true, header="Quiz!") */}}
 
 # Hello this is markdown inside a note shortcode
 
-\`\`\`rust
+```rust
 fn main() {
     println!("Hello World");
 }
-\`\`\`
+```
 
 We can't call another shortcode inside a shortcode, but this is good enough.
 
 {{/* end */}}
-```
+````
 
 Finally, we have center
 {{ note(center=true, header="Centered Text", body="This is centered text") }}
@@ -165,6 +165,8 @@ It works good enough for me!
 
 Testing[^1]
 
+Other stuff I stole lol:
+
 {% mermaid() %}
 graph LR
     A[Start] --> B[Initialize]
@@ -176,5 +178,30 @@ graph LR
     style E fill:#9f9,stroke:#333
 {% end %}
 
+```rust
+{{ remote_text(src="https://raw.githubusercontent.com/SeniorMars/seniormars.com/refs/heads/main/content/posts/everyday_birthday/src/flajolet.rs") }}
+```
+
+{{ spoiler(text="text to hide", fixed_blur=false) }}
+
+
+````markdown
+{%- mermaid() -%}
+graph LR
+    A[Start] --> B[Initialize]
+    B --> C[Processing]
+    C --> D[Complete]
+    D --> E[Success]
+    
+    style A fill:#f9f,stroke:#333
+    style E fill:#9f9,stroke:#333
+{%- end -%}
+
+```rust
+{{/* remote_text(src="https://raw.githubusercontent.com/SeniorMars/seniormars.com/refs/heads/main/content/posts/everyday_birthday/src/flajolet.rs") *\}}
+```
+
+{{/* spoiler(text="text to hide", fixed_blur=false) \*}}
+````
 
 [^1]: hello

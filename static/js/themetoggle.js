@@ -17,7 +17,6 @@ function toggleTheme() {
 
 function updateItemToggleTheme() {
     let mode = getSavedTheme();
-
     const darkModeStyle = document.getElementById("darkModeStyle");
     if (darkModeStyle) {
         darkModeStyle.disabled = (mode === "light");
@@ -29,14 +28,14 @@ function updateItemToggleTheme() {
         sunIcon.style.display = (mode === "dark") ? "inline-block" : "none";
         moonIcon.style.display = (mode === "light") ? "inline-block" : "none";
     }
-
+    
     let htmlElement = document.querySelector("html");
     if (mode === "dark") {
-        htmlElement.classList.remove("light")
-        htmlElement.classList.add("dark")
+        htmlElement.classList.remove("light");
+        htmlElement.classList.add("dark");
     } else if (mode === "light") {
-        htmlElement.classList.remove("dark")
-        htmlElement.classList.add("light")
+        htmlElement.classList.remove("dark");
+        htmlElement.classList.add("light");
     }
 }
 

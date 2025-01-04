@@ -3,7 +3,7 @@ description = "A fork of the Apollo theme for Zola with a few liberties"
 min_version = "0.0.5"
 license = "MIT"
 homepage = "https://github.com/seniormars/redux"
-# demo = "https://seniormars.com/redux"
+demo = "https://seniormars.com/redux"
 
 # Of course, credit to not-matthias
 

@@ -1,12 +1,25 @@
 base_url = "https://seniormars.github.io/redux/"
 title = "seniormars"
 description = "This is an example description"
-build_search_index = false
+build_search_index = true
 feed_filenames = ["rss.xml"]
 generate_feeds = true
 compile_sass = true
 minify_html = true
 taxonomies = [{ name = "tags" }]
+
+[search]
+include_title = true
+include_description = true
+include_path = true
+include_content = true
+index_format = "elasticlunr_json"
+
+[link_checker]
+internal_level = "warn"
+skip_anchor_prefixes = [
+    "https://github.com/",
+]
 
 [markdown]
 highlight_code = true
@@ -29,6 +42,8 @@ repo_url = "https://github.com/SeniorMars/seniormars.com/blob/main/content/"
 mathjax = true
 mathjax_extra = true
 mermaid = true
+browser_theme_color = ["#FFF", "#0E1018"]
+index_format = "elasticlunr_javascript" # or "elasticlunr_json"
 
 menu = [
     { name = "/posts", url = "/posts", weight = 1 },
