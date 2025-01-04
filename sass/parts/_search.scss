@@ -4,12 +4,12 @@ $icon-size: 1.3rem;
 .search-button {
     background: none;
     border: none;
-    padding: 2px;
+    padding: 0px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-left: 0.25em; // Match your other nav items' margin
+    margin-left: 0.4em; // Match your other nav items' margin
 
     img {
         border: none;

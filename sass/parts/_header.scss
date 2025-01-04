@@ -91,7 +91,6 @@ header .socials {
     height: 24px;
 }
 
-/* Mobile-specific adjustments */
 @media (max-width: 600px) {
     header {
         flex-direction: column;
@@ -100,7 +99,7 @@ header .socials {
     }
 
     header .main a {
-        font-size: 18px;
+        font-size: 16px;
     }
 }
 
