@@ -1,33 +1,42 @@
-<div class="note-container">
-  {% if clickable | default(value=false) %}
-    <button class="note-toggle">
-      {% if center | default(value=false) %}
+{%- set type = type | default(value="default") -%}
+{%- set clickable = clickable | default(value=false) -%}
+{%- set hidden = hidden | default(value=false) -%}
+{%- set center = center | default(value=false) -%}
+{%- set header = header | default(value=type | title) -%}
+{%- set body = body | default(value="") -%}
+{%- set icon = icon | default(value="") -%}
+
+<div class="note-container note-type-{{ type }}">
+  {% if clickable %}
+    <button class="note-toggle" aria-expanded="{{ not hidden }}">
+      {% if center %}
         <div class="note-center">
-        {{ header | markdown | safe }}
+          {{ header | markdown | safe }}
         </div>
       {% else %}
         <div class="note-icon">
-        {{ header | markdown | safe }}
+          {% if icon != "" %}
+            <span class="custom-icon">{{ icon | safe }}</span>
+          {% endif %}
+          {{ header | markdown | safe }}
         </div>
       {% endif %}
     </button>
-
-    {% if hidden | default(value=false) %}
-    <div class="note-content" style="display: none;">
-    {% else %}
-    <div class="note-content" style="display: block;">
-    {% endif %}
-    {{ body | markdown | safe }}
+    <div class="note-content" style="display: {% if hidden %}none{% else %}block{% endif %};">
+      {{ body | markdown | safe }}
     </div>
   {% else %}
     <div class="note-header">
-      {% if center | default(value=false) %}
+      {% if center %}
         <div class="note-center">
-        {{ header | markdown | safe }}
+          {{ header | markdown | safe }}
         </div>
       {% else %}
         <div class="note-icon">
-        {{ header | markdown | safe }}
+          {% if icon != "" %}
+            <span class="custom-icon">{{ icon | safe }}</span>
+          {% endif %}
+          {{ header | markdown | safe }}
         </div>
       {% endif %}
     </div>

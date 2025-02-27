@@ -134,6 +134,11 @@
         <script src={{ get_url(path="js/codeblock.js") }}></script>
     {% endif %}
 
+    {# Better Mobile #}
+    {% if config.extra.mobile %}
+        <script src={{ get_url(path="js/mobile.js") }}></script>
+    {% endif %}
+
     {# Table of contents #}
     {% if config.extra.toc | default(value=false) %}
         <script src={{ get_url(path="js/toc.js") }}></script>

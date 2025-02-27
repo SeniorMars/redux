@@ -42,6 +42,7 @@ repo_url = "https://github.com/SeniorMars/seniormars.com/blob/main/content/"
 mathjax = true
 mathjax_extra = true
 mermaid = true
+mobile = true
 browser_theme_color = ["#FFFFFF", "#0E1018"]
 
 menu = [

@@ -1,96 +1,387 @@
+    /* Note Component Styles - Refined to highlight accent colors */
+
+/* ------------------- Theme Variables ------------------- */
 :root {
-  --bg-primary: #f0f0f0; // Updated light theme background color
-  --note-color: #ebdbb2;
-  --note-bg: #ef534f;
+  /* Base theme colors */
+  --bg-primary: #f0f0f0;
   --header-color: rgb(15, 20, 25);
+  
+  /* Default note colors - using your preferred color scheme */
+  --note-border: #ef534f;
+  --note-bg: #ef534f;
+  --note-color: #ebdbb2;
+  --note-content-bg: var(--bg-primary);
+  
+  /* Type-specific colors with matching accent pattern */
+  /* Info - Blue */
+  --info-border: #42a5f5;
+  --info-bg: #1565c0;
+  --info-color: #90caf9;
+  
+  /* Warning - Orange */
+  --warning-border: #ffb74d;
+  --warning-bg: #e65100;
+  --warning-color: #ffcc80;
+  
+  /* Success - Green */
+  --success-border: #66bb6a;
+  --success-bg: #2e7d32;
+  --success-color: #a5d6a7;
+  
+  /* Danger - Red */
+  --danger-border: #ef5350;
+  --danger-bg: #b71c1c;
+  --danger-color: #ef9a9a;
+  
+  /* Tip - Teal */
+  --tip-border: #26c6da;
+  --tip-bg: #00838f;
+  --tip-color: #80deea;
 }
 
+/* Dark theme colors */
 :root.dark {
-  --bg-primary: rgb(15, 20, 25); // Dark theme background color
-  --note-color: #00b8d5;
-  --note-bg: #243b4e;
+  --bg-primary: rgb(15, 20, 25);
   --header-color: #f0f0f0;
+  --note-content-bg: var(--bg-primary);
+  
+  /* Default note colors for dark theme - using your preferred scheme */
+  --note-border: #00b8d5;
+  --note-bg: #243b4e;
+  --note-color: #00b8d5;
+  
+  /* Type-specific colors for dark theme */
+  --info-border: #90caf9;
+  --info-bg: #1565c0;
+  --info-color: #90caf9;
+  
+  --warning-border: #ffcc80;
+  --warning-bg: #ef6c00;
+  --warning-color: #ffcc80;
+  
+  --success-border: #a5d6a7;
+  --success-bg: #2e7d32;
+  --success-color: #a5d6a7;
+  
+  --danger-border: #ef9a9a;
+  --danger-bg: #c62828;
+  --danger-color: #ef9a9a;
+  
+  --tip-border: #80deea;
+  --tip-bg: #00838f;
+  --tip-color: #80deea;
 }
 
+/* ------------------- Container Styles ------------------- */
 .note-container {
-  border-radius: 4px;
+  border-radius: 6px;
   overflow: hidden;
-  margin: 1em 0;
+  margin: 1.5em 0;
   position: relative;
-  padding-left: 4px;
-  background-color: var(--note-color);
+  background-color: transparent;
   font-family: var(--paragraph-font);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  border-left: 5px solid var(--note-color); /* Using note-color for left border */
+  transition: all 0.2s ease-in-out;
+  
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Type-specific container styles */
+  &.note-type-info {
+    border-left-color: var(--info-color);
+  }
+  
+  &.note-type-warning {
+    border-left-color: var(--warning-color);
+  }
+  
+  &.note-type-success {
+    border-left-color: var(--success-color);
+  }
+  
+  &.note-type-danger {
+    border-left-color: var(--danger-color);
+  }
+  
+  &.note-type-tip {
+    border-left-color: var(--tip-color);
+  }
 }
 
+/* ------------------- Header Styles ------------------- */
 .note-toggle,
 .note-header {
   color: var(--header-color);
   background-color: var(--note-bg);
-  padding: 10px 25px;
+  padding: 12px 20px;
   text-align: left;
   border: none;
   width: 100%;
   position: relative;
   outline: none;
   font-size: 1.2em;
-  transition: background-color 0.3s ease;
-
+  font-weight: 500;
+  transition: all 0.2s ease;
+  
   p {
     margin: 0;
+    line-height: 1.4;
   }
-
+  
   .note-center {
     text-align: center;
     padding-right: 50px;
   }
-
-  .note-icon,
+  
   .note-icon {
-    padding-left: 25px;
+    padding-left: 36px;
+    position: relative;
+  }
+  
+  /* Type-specific header styles */
+  .note-type-info & {
+    background-color: var(--info-bg);
+    color: var(--header-color);
+  }
+  
+  .note-type-warning & {
+    background-color: var(--warning-bg);
+    color: var(--header-color);
+  }
+  
+  .note-type-success & {
+    background-color: var(--success-bg);
+    color: var(--header-color);
+  }
+  
+  .note-type-danger & {
+    background-color: var(--danger-bg);
+    color: var(--header-color);
+  }
+  
+  .note-type-tip & {
+    background-color: var(--tip-bg);
+    color: var(--header-color);
   }
 }
 
+/* ------------------- Toggle Button Styles ------------------- */
 .note-toggle {
   cursor: pointer;
-  position: relative;
+  display: flex;
+  align-items: center;
+  
+  &::before {
+    content: '▼';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+    color: var(--note-color); /* Using note-color for toggle indicator */
+  }
+  
+  &[aria-expanded="false"]::before {
+    transform: translateY(-50%) rotate(-90deg);
+  }
+  
+  &:hover,
+  &:focus {
+    filter: brightness(1.05);
+    outline: none;
+  }
+  
+  /* Accessibility focus indicator */
+  &:focus-visible {
+    outline: 2px solid var(--note-color); /* Using note-color for focus outline */
+    outline-offset: -2px;
+  }
+  
+  /* Type-specific toggle styles */
+  .note-type-info &::before {
+    color: var(--info-color);
+  }
+  
+  .note-type-warning &::before {
+    color: var(--warning-color);
+  }
+  
+  .note-type-success &::before {
+    color: var(--success-color);
+  }
+  
+  .note-type-danger &::before {
+    color: var(--danger-color);
+  }
+  
+  .note-type-tip &::before {
+    color: var(--tip-color);
+  }
 }
 
-.note-toggle::before {
-  content: '▼';
+/* ------------------- Content Styles ------------------- */
+.note-content {
+  padding: 16px 24px;
+  background-color: var(--note-content-bg);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  line-height: 1.6;
+  
+  /* Make tables responsive inside note content */
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin: 1em 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  p:first-child {
+    margin-top: 0;
+  }
+  
+  p:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Add a subtle fade transition */
+  transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+  
+  /* Type-specific content styles can be added here */
+}
+
+/* ------------------- Icon Styles ------------------- */
+.note-icon::before {
   position: absolute;
-  right: 20px;
-  /* Position the arrow to the right */
+  left: 12px;
   top: 50%;
-  /* Center vertically */
   transform: translateY(-50%);
-  /* Center vertically */
+  font-size: 1.1em;
+  color: var(--note-color); /* Using note-color for icon */
 }
 
-.note-toggle:hover,
-.note-toggle:focus {
-  color: var(--note-color);
-  background-color: var(--note-bg);
-  outline: none;
+/* Default icon */
+.note-icon::before {
+  content: '✎';
+}
+
+/* Type-specific icons */
+.note-type-info .note-icon::before {
+  content: 'ℹ️';
+  color: var(--info-color);
+}
+
+.note-type-warning .note-icon::before {
+  content: '⚠️';
+  color: var(--warning-color);
+}
+
+.note-type-success .note-icon::before {
+  content: '✓';
+  color: var(--success-color);
+}
+
+.note-type-danger .note-icon::before {
+  content: '⚠';
+  color: var(--danger-color);
+}
+
+.note-type-tip .note-icon::before {
+  content: '💡';
+  color: var(--tip-color);
+}
+
+/* Hide default icon when custom icon exists */
+.custom-icon ~ .note-icon::before {
+  display: none;
+}
+
+.custom-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--note-color); /* Using note-color for custom icon */
+}
+
+/* Type-specific custom icon colors */
+.note-type-info .custom-icon {
+  color: var(--info-color);
+}
+
+.note-type-warning .custom-icon {
+  color: var(--warning-color);
+}
+
+.note-type-success .custom-icon {
+  color: var(--success-color);
+}
+
+.note-type-danger .custom-icon {
+  color: var(--danger-color);
+}
+
+.note-type-tip .custom-icon {
+  color: var(--tip-color);
+}
+
+/* ------------------- Responsive Adjustments ------------------- */
+@media (max-width: 768px) {
+  .note-container {
+    margin: 1em 0;
+    border-radius: 4px;
+  }
+  
+  .note-toggle,
+  .note-header {
+    padding: 10px 16px;
+    font-size: 1.1em;
+  }
+  
+  .note-content {
+    padding: 12px 16px;
+  }
+  
+  .note-icon {
+    padding-left: 30px;
+  }
+  
+  .note-icon::before,
+  .custom-icon {
+    left: 10px;
+  }
+}
+
+/* ------------------- Animation Styles ------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .note-content {
-  padding: 10px 20px;
-  background-color: var(--bg-primary);
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-.note-icon::before {
-  content: '✎';
-  color: var(--note-color);
+/* Optional visual cue for scrollable tables */
+.table-container {
+  position: relative;
+}
+
+.table-container::after {
+  content: '';
   position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.05));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
-summary:hover,
-summary:focus {
-  color: var(--note-color);
-  background-color: var(--note-bg);
-  outline: none;
-  padding: 10px;
+.table-container:hover::after {
+  opacity: 1;
 }
