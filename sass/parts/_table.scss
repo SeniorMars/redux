@@ -1,39 +1,23 @@
-table {
-  border-spacing: 0;
-  border-collapse: collapse;
-}
-
-table th {
-  padding: 6px 13px;
-  border: 1px solid #dfe2e5;
-  font-size: large;
-}
-
-table td {
-  padding: 6px 13px;
-  border: 1px solid #dfe2e5;
-}
-
-/* add a container around your table */
+  /* Table container and basic table styling */
 .table-container {
   width: 100%;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* for smooth scrolling on ios */
+  margin-bottom: 1em;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* your existing table styles */
 table {
   border-spacing: 0;
   border-collapse: collapse;
-  min-width: 100%; /* ensure table takes full width */
-  width: auto; /* allow table to expand beyond container if needed */
+  width: auto;
+  min-width: 100%;
 }
 
 table th {
   padding: 6px 13px;
   border: 1px solid #dfe2e5;
   font-size: large;
-  white-space: nowrap; /* prevent header text from wrapping */
 }
 
 table td {
@@ -41,17 +25,25 @@ table td {
   border: 1px solid #dfe2e5;
 }
 
-.table-container::after {
-  content: '→';
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  opacity: 0.5;
-  animation: fadeinout 2s infinite;
-  pointer-events: none;
+/* Enhanced MathJax specific fixes */
+table td, table th {
+  min-width: 100px; /* Increased minimum width */
+  line-height: 1.8; /* More line height for complex math */
+  vertical-align: middle;
+  padding: 10px 13px; /* Increased padding */
 }
 
-@keyframes fadeinout {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.7; }
+/* Ensure all math content is visible */
+.MathJax, .MathJax_Display {
+  max-width: none !important;
+  overflow: visible !important;
+}
+
+/* Avoid line breaks in math expressions */
+.MathJax_Display {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  width: auto !important;
+  margin: 0 !important;
+  text-align: left !important;
 }
