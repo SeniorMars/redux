@@ -169,6 +169,8 @@
 
 /* ------------------- Toggle Button Styles ------------------- */
 .note-toggle {
+  font-family: inherit; 
+  padding: 10px 25px;
   cursor: pointer;
   display: flex;
   align-items: center;

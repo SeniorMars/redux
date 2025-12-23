@@ -22,3 +22,71 @@
     // Removed transition on display, not effective
   }
 }
+
+.toc {
+
+  // keep your breakpoint hide
+  @media only screen and (max-width: 1365px) {
+    display: none;
+  }
+
+  // IMPORTANT: make it reach the bottom and scroll internally
+  position: sticky;
+  top: 1.5rem;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  padding-bottom: 1rem;
+
+  // optional: stable scrollbar so layout doesn't jump
+  scrollbar-gutter: stable;
+
+  ul {
+    list-style-type: none;
+    padding-left: 1em;
+    margin: 0;
+  }
+
+  &>ul {
+    padding-left: 0;
+  }
+
+  li,
+  a {
+    font-family: sans-serif;
+    border-bottom: none;
+    transition: opacity 120ms ease, color 120ms ease;
+  }
+
+  // default: dim everything
+  a {
+    color: var(--text-2);
+    opacity: 0.45;
+  }
+
+  a:hover {
+    color: var(--hover-color) !important;
+    opacity: 1;
+  }
+
+  .heading {
+    font-weight: 700;
+  }
+
+  // parent chain: brighter
+  li.parent>a {
+    color: var(--text-0);
+    opacity: 0.75;
+  }
+
+  // selected: full
+  li.selected>a {
+    color: var(--text-0);
+    opacity: 1;
+  }
+
+  // the next two headings: almost full
+  li.near>a {
+    color: var(--text-0);
+    opacity: 0.9;
+  }
+}

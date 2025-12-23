@@ -1,4 +1,4 @@
-  /* Table container and basic table styling */
+/* Table container and basic table styling */
 .table-container {
   width: 100%;
   overflow-x: auto;
@@ -26,15 +26,20 @@ table td {
 }
 
 /* Enhanced MathJax specific fixes */
-table td, table th {
-  min-width: 100px; /* Increased minimum width */
-  line-height: 1.8; /* More line height for complex math */
+table td,
+table th {
+  min-width: 100px;
+  /* Increased minimum width */
+  line-height: 1.8;
+  /* More line height for complex math */
   vertical-align: middle;
-  padding: 10px 13px; /* Increased padding */
+  padding: 10px 13px;
+  /* Increased padding */
 }
 
 /* Ensure all math content is visible */
-.MathJax, .MathJax_Display {
+.MathJax,
+.MathJax_Display {
   max-width: none !important;
   overflow: visible !important;
 }
@@ -47,3 +52,4 @@ table td, table th {
   margin: 0 !important;
   text-align: left !important;
 }
+

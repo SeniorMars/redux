@@ -1,56 +1,83 @@
 .cards {
-    display: grid;
-    grid-template-rows: auto;
-    gap: 24px;
-    padding: 12px 0;
+  display: grid;
+  grid-template-rows: auto;
+  gap: var(--gap);
+  padding: 12px 0;
+  --gap: 24px;
+  --container-width: 920px;
+  --columns: 2;
+  /* Calculate min-width: (total_width - gaps_between_columns) / number_of_columns */
+  --min-width: calc((var(--container-width) - (var(--columns) - 1) * var(--gap)) / var(--columns));
+  --media-height: 300px;
 }
 
 @media all and (min-width: 640px) {
-    .cards {
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    }
+  .cards {
+    grid-template-columns: repeat(auto-fill, minmax(var(--min-width), 1fr));
+  }
 }
 
 @media all and (max-width: 640px) {
-    .cards {
-        grid-template-columns: repeat(auto-fill, 1fr);
-    }
+  .cards {
+    grid-template-columns: repeat(auto-fill, 1fr);
+  }
 }
 
 .card {
-    min-height: 100px;
-    background: var(--bg-2);
-    border: 2px solid var(--border-color);
-    border-radius: 10px;
-    overflow: hidden;
+  min-height: 100px;
+  background: var(--bg-1);
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.card-info {
-    padding: 0 24px 24px 24px;
-}
-
-.card-title {
-    margin-top: 0.7em;
+/* New: Media Wrapper for consistent height */
+.card-media {
+  width: 100%;
+  height: var(--media-height); /* Use configurable height */
+  overflow: hidden; /* Hide anything that overflows this container */
+  display: flex; /* Use flexbox to center content if needed */
+  justify-content: center;
+  align-items: center;
 }
 
 .card-image {
-    border: unset;
-    width: 100%;
+  border: unset;
+  width: 100%;
+  height: 100%; /* Image fills the media wrapper */
+  object-fit: cover; /* Image covers the area, cropping if necessary */
 }
 
+/* New: Styles for video */
+.card-video {
+  width: 100%;
+  height: 100%; /* Video fills the media wrapper */
+  object-fit: cover; /* Video covers the area, cropping if necessary */
+  display: block; /* Removes any extra space below the video */
+}
+
+
+.card-info {
+  padding: 0 24px 24px 24px;
+}
+
+.card-title {
+  margin-top: 0.7em;
+}
+
+
 .card-image-placeholder {
-    height: 12px;
-    width: 100%;
+  height: 12px;
+  width: 100%;
 }
 
 .card-description {
-    margin-top: 0.5em;
-    overflow: hidden;
-    font-family: var(--paragraph-font);
+  margin-top: 0.5em;
+  overflow: hidden;
 }
 
-@media all and (max-width:720px) {
-    .cards {
-        gap: 18px;
-    }
+@media all and (max-width: 720px) {
+  .cards {
+    gap: 18px;
+  }
 }

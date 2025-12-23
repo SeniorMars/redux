@@ -24,3 +24,27 @@
     white-space: nowrap !important;
   }
 }
+
+.authors {
+  a::before {
+    content: "@";
+    display: inline;
+    white-space: nowrap !important;
+  }
+}
+
+/* constrain the tag rows so "space-between" doesn't push to the page edge */
+.tag-list ul.tags {
+  max-width: 15rem;   /* tweak this number */
+  padding: 0;
+  margin: 0;
+}
+
+.tag-list ul.tags > li.term-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+

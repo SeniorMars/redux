@@ -1,7 +1,23 @@
 {% extends "index.html" %}
 
+{% macro list_tag_posts(pages, tag_name=false) %}
+    {% if tag_name %}
+    <div class="page-header">
+        Entries tagged :: {{ tag_name }}<span class="primary-color" style="font-size: 1.6em">.</span>
+    </div>
+    {% else %}
+    <div class="page-header">
+        All articles<span class="primary-color" style="font-size: 1.6em">.</span>
+    </div>
+    {% endif %}
+
+    <main class="list">
+    {{ post_macros::list_posts(pages=pages) }}
+    </main>
+{% endmacro %}
+
 {% block main_content %}
 
-{{ post_macros::list_tag_posts(pages=term.pages, tag_name=term.name) }}
+{{ self::list_tag_posts(pages=term.pages, tag_name=term.name) }}
 
 {% endblock main_content %}

@@ -6,19 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="base" content="{{ config.base_url }}">
 
+    {# SEO and Meta tags section #}
+    {% set current_path = current_path | default(value="/") %}
+    {% set page_has_og_title = false %}
+    {% set page_has_og_description = false %}
+    {% set page_has_description = false %}
+    {% set page_has_og_image = false %}
+    
+    {# Process custom meta tags if available #}
     {% if page.extra.meta %}
-         <!-- the meta data config goes here  -->
          {% for data in page.extra.meta %}
              <meta
                  {% for key, value in data%}
                      {% if key == "property" and value == "og:title"%}
-                         {% set_global page_has_og_title = true -%}
+                         {% set page_has_og_title = true %}
                      {% endif %}
                      {% if key == "property" and value == "og:description"%}
-                         {% set_global page_has_og_description = true -%}
+                         {% set page_has_og_description = true %}
+                     {% endif %}
+                     {% if key == "property" and value == "og:image"%}
+                         {% set page_has_og_image = true %}
                      {% endif %}
                      {% if key == "name" and value == "description"%}
-                         {% set_global page_has_description = true -%}
+                         {% set page_has_description = true %}
                      {% endif %}
                      {{ key }}="{{ value }}"
                 {% endfor %}
@@ -27,44 +37,144 @@
     {% endif %}
 
     {# Site title #}
-    {% set current_path = current_path | default(value="/") %}
     {% if current_path == "/" %}
-    <title>
-        {{ config.title | default(value="Home") }}
-    </title>
-    {% if not page_has_og_title %}
-        <meta property="og:title" content="{{ config.title | default(value="Home") }}" />
-    {% endif %}
-
-    {% else %}
-    <title>
-        {% if page.title %} {{ page.title }}
-        {% elif section.title %} {{ section.title }}
-        {% elif config.title %} {{ config.title }}
-        {% else %} Post {% endif %}
-    </title>
-
+            <title>{{ post_macros::site_title() }}</title>
         {% if not page_has_og_title %}
-            <meta property="og:title" content="{% if page.title -%}{{ page.title }}{% elif config.title -%}{{ config.title }}{% else -%}Post{% endif -%}" />
+            <meta property="og:title" content="{{ post_macros::site_title() }}" />
         {% endif %}
-     {% endif %}
-
-     {% if not page_has_og_description %}
-         {% if page.description %}
-             <meta property="og:description" content="{{ page.description }}" />
-         {% elif config.description %}
-             <meta property="og:description" content="{{ config.description }}" />
-         {% endif %}
-     {% endif %}
-
-     {% if not page_has_description %}
-         {% if page.description %}
-             <meta name="description" content="{{ page.description }}" />
-         {% elif config.description %}
-             <meta name="description" content="{{ config.description }}" />
-         {% endif %}
+    {% else %}
+        <title>
+            {% if page.title %} {{ page.title }}
+            {% elif section.title %} {{ section.title }}
+            {% elif config.title %} {{ config.title }}
+            {% else %} Post {% endif %}
+        </title>
+        {% if not page_has_og_title %}
+            <meta property="og:title" content="{% if page.title %}{{ page.title }}{% elif section.title %}{{ section.title }}{% elif config.title %}{{ config.title }}{% else %}Post{% endif %}" />
+        {% endif %}
     {% endif %}
 
+    {# Description meta tags #}
+    {% if not page_has_description %}
+        {% if page.description %}
+            <meta name="description" content="{{ page.description }}" />
+        {% elif section.description %}
+            <meta name="description" content="{{ section.description }}" />
+        {% elif config.description %}
+            <meta name="description" content="{{ config.description }}" />
+        {% endif %}
+    {% endif %}
+
+    {# OpenGraph description #}
+    {% if not page_has_og_description %}
+        {% if page.description %}
+            <meta property="og:description" content="{{ page.description }}" />
+        {% elif section.description %}
+            <meta property="og:description" content="{{ section.description }}" />
+        {% elif config.description %}
+            <meta property="og:description" content="{{ config.description }}" />
+        {% endif %}
+    {% endif %}
+
+    {# OpenGraph type #}
+    {% if page.path and page.path is starting_with("posts/") %}
+        <meta property="og:type" content="article" />
+    {% else %}
+        <meta property="og:type" content="website" />
+    {% endif %}
+
+    {# OpenGraph URL and canonical #}
+    {% if current_url %}
+        <meta property="og:url" content="{{ current_url }}" />
+        <link rel="canonical" href="{{ current_url }}" />
+    {% endif %}
+
+    {# OpenGraph site name #}
+    <meta property="og:site_name" content="{{ config.title }}" />
+
+    {# OpenGraph image #}
+    {% if not page_has_og_image %}
+        {% if page.extra.thumbnail %}
+            <meta property="og:image" content="{{ get_url(path=page.extra.thumbnail) }}" />
+        {% elif section.extra.thumbnail %}
+            <meta property="og:image" content="{{ get_url(path=section.extra.thumbnail) }}" />
+        {% elif config.extra.default_og_image %}
+            <meta property="og:image" content="{{ get_url(path=config.extra.default_og_image) }}" />
+        {% endif %}
+    {% endif %}
+
+    {# Twitter Card #}
+    {% if config.extra.twitter_card | default(value=true) %}
+        {% if page.extra.thumbnail or section.extra.thumbnail or config.extra.default_og_image %}
+            <meta name="twitter:card" content="summary_large_image" />
+        {% else %}
+            <meta name="twitter:card" content="summary" />
+        {% endif %}
+        
+        {% if config.extra.twitter_site %}
+            <meta name="twitter:site" content="@{{ config.extra.twitter_site }}" />
+        {% endif %}
+        
+        {% if config.extra.twitter_creator %}
+            <meta name="twitter:creator" content="@{{ config.extra.twitter_creator }}" />
+        {% endif %}
+        
+        <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% elif section.title %}{{ section.title }}{% elif config.title %}{{ config.title }}{% else %}Post{% endif %}" />
+        
+        {% if page.description %}
+            <meta name="twitter:description" content="{{ page.description }}" />
+        {% elif section.description %}
+            <meta name="twitter:description" content="{{ section.description }}" />
+        {% elif config.description %}
+            <meta name="twitter:description" content="{{ config.description }}" />
+        {% endif %}
+        
+        {% if page.extra.thumbnail %}
+            <meta name="twitter:image" content="{{ get_url(path=page.extra.thumbnail) }}" />
+        {% elif section.extra.thumbnail %}
+            <meta name="twitter:image" content="{{ get_url(path=section.extra.thumbnail) }}" />
+        {% elif config.extra.default_og_image %}
+            <meta name="twitter:image" content="{{ get_url(path=config.extra.default_og_image) }}" />
+        {% endif %}
+    {% endif %}
+
+    {# Article specific OpenGraph tags for blog posts #}
+    {% if page.path and page.path is starting_with("posts/") %}
+        {% if page.date %}
+            <meta property="article:published_time" content="{{ page.date | date(format="%+") }}" />
+        {% endif %}
+        
+        {% if page.updated %}
+            <meta property="article:modified_time" content="{{ page.updated | date(format="%+") }}" />
+        {% endif %}
+        
+        {% if config.extra.article_publisher %}
+            <meta property="article:publisher" content="{{ config.extra.article_publisher }}" />
+        {% endif %}
+        
+        {% if config.extra.article_author %}
+            <meta property="article:author" content="{{ config.extra.article_author }}" />
+        {% elif config.extra.author %}
+            <meta property="article:author" content="{{ config.extra.author }}" />
+        {% endif %}
+        
+        {% if page.taxonomies.tags %}
+            {% for tag in page.taxonomies.tags %}
+                <meta property="article:tag" content="{{ tag }}" />
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
+    {# Additional meta tags #}
+    {% if page.extra.keywords or config.extra.keywords %}
+        <meta name="keywords" content="{% if page.extra.keywords %}{{ page.extra.keywords }}{% elif config.extra.keywords %}{{ config.extra.keywords }}{% endif %}" />
+    {% endif %}
+
+    {% if config.extra.author %}
+        <meta name="author" content="{{ config.extra.author }}" />
+    {% endif %}
+
+    {# Browser theme color #}
     {%- if config.extra.browser_theme_color and config.extra.browser_theme_color is iterable -%}
         {# Handle array values: theme_color[0] for light mode, theme_color[1] for dark mode #}
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="{{ config.extra.browser_theme_color[0] }}" />
@@ -76,7 +186,7 @@
 
     {# Favicon #}
     {% if config.extra.favicon %}
-        <link rel="icon" type="image/png" href={{ config.extra.favicon }} />
+        <link rel="icon" type="image/png" href={{ get_url(path=config.extra.favicon) }} />
         {# Assumes everything is store in /icons #}
         {% if config.extra.favicon_extra %}
             <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -93,6 +203,7 @@
 
     {# Font from cdn or disk #}
     {% if config.extra.use_cdn | default(value=false) %}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jetbrains-mono@1.0.6/css/jetbrains-mono.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@4.5.8/index.min.css">
     {% else %}
@@ -131,7 +242,12 @@
 
     {# Fancy Codeblock #}
     {% if config.extra.fancy_code %}
-        <script src={{ get_url(path="js/codeblock.js") }}></script>
+        <script defer src={{ get_url(path="js/codeblock.js") }}></script>
+    {% endif %}
+
+    {# Dynamic note #}
+    {% if config.extra.dynamic_note | default(value=false) %}
+        <script defer src={{ get_url(path="js/note.js") }}></script>
     {% endif %}
 
     {# Better Mobile #}
@@ -142,11 +258,6 @@
     {# Table of contents #}
     {% if config.extra.toc | default(value=false) %}
         <script src={{ get_url(path="js/toc.js") }}></script>
-    {% endif %}
-
-    {# Dynamic note #}
-    {% if config.extra.dynamic_note | default(value=false) %}
-        <script src={{ get_url(path="js/note.js") }}></script>
     {% endif %}
 
     {% if config.extra.mathjax | default(value=false) %}
@@ -173,15 +284,25 @@
             };
         </script>
         {% endif %}
-        <script type="text/javascript" id="MathJax-script" async
-            src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.7/tex-mml-chtml.js">
-        </script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@4.1/tex-mml-chtml.js" defer></script>
     {% endif %}
 
     {# RSS #}
-    {% block rss %}
-        <link rel="alternate" type="application/rss+xml" title="{{config.title}}" href="{{ get_url(path="rss.xml", trailing_slash=false) }}">
-    {% endblock %}
+    {% if config.generate_feeds %}
+        {% for feed_filenames in config.feed_filenames %}
+            {% if feed_filenames == "atom.xml" %}
+            <link rel="alternate"
+                  type="application/atom+xml"
+                  title="{{ post_macros::site_title() }}"
+                  href="{{ get_url(path="atom.xml", trailing_slash=false) }}" />
+            {% elif feed_filenames == "rss.xml" %}
+            <link rel="alternate"
+                  type="application/rss+xml"
+                  title="{{ post_macros::site_title() }}"
+                  href="{{ get_url(path="rss.xml", trailing_slash=false) }}" />
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
     {% set theme = config.extra.theme %}
     {% if theme == "dark" %}
@@ -225,7 +346,7 @@
 
     {# Mermaid #}
     {% if config.extra.mermaid | default(value=false) %}
-        <script src={{ get_url(path="js/mermaid.js") }}></script>
+        <script defer src={{ get_url(path="js/mermaid.js") }}></script>
     {% endif %}
 
     {# Search #}

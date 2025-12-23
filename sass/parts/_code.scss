@@ -8,7 +8,7 @@
     --text-color: #333;
     --label-color: #f0f0f0;
     --label-background: white;
-    --hightlight-color: #DCEBFF;
+    --highlight-color: #DCEBFF;
 }
 
 :root.dark {
@@ -18,7 +18,7 @@
     // Define dark theme specifics
     --text-color: #f0f0f0;
     --label-background: black;
-    --hightlight-color: #204e8a;
+    --highlight-color: #204e8a;
 }
 
 
@@ -96,7 +96,7 @@ pre {
     position: relative;
 
     mark {
-        background-color: var(--hightlight-color) !important; // Ensure mark uses the theme background
+        background-color: var(--highlight-color) !important; // Ensure mark uses the theme background
         padding: 0;
         border-radius: 0px;
     }
@@ -118,7 +118,7 @@ pre {
                 display: block;
                 color: unset;
                 padding: 0;
-                background-color: var(--hightlight-color) !important;
+                background-color: var(--highlight-color) !important;
                 filter: brightness(1.2); // Example to slightly increase brightness
             }
 

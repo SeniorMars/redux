@@ -9,6 +9,8 @@ tags=["educational", "tutorial"]
 [extra]
 repo_view = true
 read_time = true
+word_count = true
+toc = true
 +++
 
 # H1

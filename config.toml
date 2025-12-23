@@ -1,12 +1,15 @@
 base_url = "https://seniormars.github.io/redux/"
-title = "seniormars"
+title = "SeniorMars"
 description = "This is an example description"
 build_search_index = true
 feed_filenames = ["rss.xml"]
 generate_feeds = true
 compile_sass = true
-minify_html = true
-taxonomies = [{ name = "tags" }]
+minify_html = false
+taxonomies = [
+  { name = "tags" },
+  { name = "authors" },
+]
 
 [search]
 include_title = true
@@ -58,6 +61,13 @@ socials = [
     { name = "youtube", url = "https://www.youtube.com/seniormarstries", icon = "youtube" },
     { name = "rss", url = "/rss.xml", icon = "rss" },
 ]
+
+cards_columns = 3
+card_media_height = 200
+
+[extra.taxonomies]
+sort_by = "page_count"         # e.g. name, page_count
+reverse = true
 
 custom_css = []
 

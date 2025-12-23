@@ -1,177 +1,156 @@
-.page-header {
-    font-size: 2.5em;
-    line-height: 100%;
-    font-family: var(--header-font);
-    margin: 4rem 0px 1rem 0px;
-}
+ @media (max-width: 420px) {
+     nav .right-nav {
+         font-size: 0.9rem;
+     }
+ }
 
-.centered-header {
-    font-family: var(--header-font);
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    font-size: 4em;
-}
+ .page-header {
+     font-size: 2.5em;
+     line-height: 100%;
+     font-family: var(--header-font);
+     margin: 4rem 0px 1rem 0px;
+ }
 
-header {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 1em 0;
-}
+ .centered-header {
+     font-family: var(--header-font);
+     position: absolute;
+     top: 40%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     text-align: center;
+     font-size: 3em;
+ }
 
-header .main {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 1.5rem;
+ nav {
+     display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     justify-content: space-between;
+     padding-top: 1em;
 
-    /* Otherwise header and menu is too close on small screens*/
-    margin-bottom: 5px;
-}
+     /* Mobile-specific adjustments */
+     @media (max-width: 600px) {
+         flex-direction: column;
+     }
 
-header .social img,
-header #dark-mode-toggle img {
-    width: 16px;
-    height: 16px;
-}
+     /* title and socials */
+     .left-nav {
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         gap: 12px;
+         font-size: 1.5rem;
 
-header .socials {
-    margin-bottom: 10px;
-    /* Space between social icons and menu items */
-}
+         .socials {
+             /* flex-container */
+             display: flex;
+             flex-direction: row;
+             flex-wrap: wrap;
+             justify-content: flex-start;
+             align-items: flex-end;
+             gap: 8px;
 
-#dark-mode-toggle {
-    justify-content: center;
-}
+             .social img {
+                 width: 16px;
+                 height: 16px;
 
-.logo {
-    border-bottom: unset;
-    background-image: unset;
-}
+             }
+         }
+     }
 
-.logo>img {
-    border: unset;
-    width: auto;
-    height: 24px;
-    vertical-align: middle;
-}
+     /* navigation + theme toggle */
+     .right-nav {
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         gap: 0.25rem; // optional: spacing handled by flex gap instead of inline styles
 
-.logo:hover {
-  background-color: transparent;
-}
+         #dark-mode-toggle {
+             margin-left: 0.5rem;
+             padding: 0.1rem;
 
-.socials {
-    /* flex-child */
-    flex-grow: 0;
-    /* flex-container */
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-end;
-    gap: 6px;
-}
+             >img {
+                 width: 16px;
+                 height: 16px;
+             }
 
-.social {
-    border-bottom: unset;
-    background-image: unset;
-    padding: 2px;
-}
+             /* Don't display background on hover */
+             &:hover {
+                 background-color: transparent;
+             }
+         }
+     }
+ }
 
-.social>img {
-    border: unset;
-    width: 24px;
-    height: 24px;
-}
+ /* TODO: Is this still used? */
+ .logo {
+     border-bottom: unset;
+     background-image: unset;
 
-@media (max-width: 600px) {
-    header {
-        flex-direction: column;
-        align-items: center;
-        padding: 1em 0;
-    }
+     >img {
+         border: unset;
+         width: auto;
+         height: 24px;
+         vertical-align: middle;
+     }
 
-    header .main a {
-        font-size: 16px;
-    }
-}
+     &:hover {
+         background-color: transparent;
+     }
+ }
 
-.nav-item,
-.search-button {
-    margin-left: 0.4em;
-}
+ .left-nav a.social {
+     border-bottom: none;
+     background-image: none;
+ }
 
-// Mobile styles
-@media only screen and (max-width: 600px) {
-    .nav-item,
-    .search-button {
-        margin-left: 0.1em;
-    }
-}
+ /* TODO: Is this still used? */
+ .meta {
+     color: #999;
+     display: block;
+     /* This changes the meta class to use flexbox, which ensures inline display */
+     align-items: center;
+     /* Aligns items vertically in the middle */
+     flex-wrap: wrap;
+     /* Allows items to wrap as needed */
+ }
 
-.meta {
-    color: #999;
-    display: flexbox;
-    /* This changes the meta class to use flexbox, which ensures inline display */
-    align-items: center;
-    /* Aligns items vertically in the middle */
-    flex-wrap: wrap;
-}
+ h1,
+ h2,
+ h3,
+ h4,
+ h5,
+ h6 {
+     font-size: 1.2rem;
+     margin-top: 2em;
+ }
 
-.meta>time {
-    color: var(--primary-color);
-}
+ h1::before {
+     color: var(--primary-color);
+     content: "# ";
+ }
 
-#dark-mode-toggle>img {
-    display: none;
-    width: 15px;
-    height: 15px;
-    border: unset;
-}
+ h2::before {
+     color: var(--primary-color);
+     content: "## ";
+ }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-size: 1.2rem;
-    margin-top: 2em;
-}
+ h3::before {
+     color: var(--primary-color);
+     content: "### ";
+ }
 
-h1::before {
-    color: var(--primary-color);
-    content: "# ";
-}
+ h4::before {
+     color: var(--primary-color);
+     content: "#### ";
+ }
 
-h2::before {
-    color: var(--primary-color);
-    content: "## ";
-}
+ h5::before {
+     color: var(--primary-color);
+     content: "##### ";
+ }
 
-h3::before {
-    color: var(--primary-color);
-    content: "### ";
-}
-
-h4::before {
-    color: var(--primary-color);
-    content: "#### ";
-}
-
-h5::before {
-    color: var(--primary-color);
-    content: "##### ";
-}
-
-h6::before {
-    color: var(--primary-color);
-    content: "###### ";
-}
+ h6::before {
+     color: var(--primary-color);
+     content: "###### ";
+ }

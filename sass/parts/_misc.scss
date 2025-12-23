@@ -22,10 +22,6 @@
   color: var(--hover-color);
 }
 
-p {
-  line-height: 1.5;
-}
-
 hr {
   border: 0;
   border-top: 3px solid var(--border-color);
@@ -40,7 +36,8 @@ blockquote {
 }
 
 .footnotes-list li::marker {
-  color: var(--primary-color); /* Replace --primary-color with your desired color */
+  color: var(--primary-color);
+  /* Replace --primary-color with your desired color */
 }
 
 a {
@@ -87,22 +84,27 @@ del {
 
     h1 {
       margin-top: 0;
-      // font-size: 130%;
 
       a {
         border-bottom: none;
       }
     }
   }
+
+  .post-header time {
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-/* Post list */
 @media all and (min-width: 640px) {
   .post-header {
     display: grid;
     gap: 1rem;
     grid-row-gap: 1.5rem;
     grid-template-columns: auto 1fr;
+
+    align-items: baseline; // ✅ key fix
 
     h1 {
       margin: 0;
@@ -112,6 +114,12 @@ del {
         border-bottom: none;
       }
     }
+  }
+
+  .post-header time {
+    line-height: 1; // helps tighten the date box
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 }
 
