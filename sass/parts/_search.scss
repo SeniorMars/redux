@@ -15,7 +15,7 @@ $icon-size: 1.3rem;
     }
 
     .search-icon {
-        width: 16px; // Match your theme button size
+        width: 16px;
         height: 16px;
     }
 
@@ -23,7 +23,6 @@ $icon-size: 1.3rem;
         background-color: transparent;
     }
 }
-
 
 // Theme-specific styles for search icon
 html.dark .search-button .search-icon {
@@ -44,8 +43,6 @@ html.light .search-button .search-icon {
     height: 100%;
     z-index: 1000;
     background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
 
     #modal-content {
         position: relative;
@@ -56,17 +53,30 @@ html.light .search-button .search-icon {
         border: 1px solid var(--bg-1);
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+
+            &::before {
+                color: var(--primary-color);
+                content: "# ";
+            }
+        }
     }
 
     #searchBar {
+        position: relative;
         display: flex;
         align-items: center;
-        padding: 1rem;
+        padding: 0 0 1rem 0;
         gap: 0.5rem;
 
         #searchInput {
             flex: 1;
-            padding: 0.75rem 2.5rem;
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
             font-size: 1rem;
             color: var(--text-0);
             background: var(--bg-1);
@@ -84,17 +94,27 @@ html.light .search-button .search-icon {
             }
         }
 
-        .close-icon {
+        .clear-button {
             position: absolute;
-            right: 1.5rem;
-            display: none;
+            right: 1rem;
+            background: none;
+            border: none;
             padding: 4px;
             cursor: pointer;
+            display: none;
+            width: 24px;
+            height: 24px;
 
             svg {
-                width: $icon-size;
-                height: $icon-size;
+                width: 100%;
+                height: 100%;
                 fill: var(--text-1);
+            }
+
+            &:hover {
+                svg {
+                    fill: var(--primary-color);
+                }
             }
         }
     }
@@ -104,17 +124,17 @@ html.light .search-button .search-icon {
         border-top: 1px solid var(--bg-1);
 
         #results-info {
-            padding: 0.5rem;
+            padding: 0.5rem 1rem;
             color: var(--text-1);
             font-size: 0.8rem;
-            text-align: center;
+            text-align: left;
         }
 
         #results {
             max-height: 50vh;
             overflow-y: auto;
 
-            >div {
+            > div {
                 padding: 0.75rem 1rem;
                 cursor: pointer;
 
@@ -137,6 +157,14 @@ html.light .search-button .search-icon {
                     display: block;
                     color: var(--text-1);
                     font-size: 0.9rem;
+                    line-height: 1.5;
+
+                    // Highlight matched search terms
+                    b {
+                        font-weight: 600;
+                        padding: 0.125rem 0.25rem;
+                        border-radius: 3px;
+                    }
                 }
 
                 &:hover:not([aria-selected="true"]) {
@@ -145,66 +173,17 @@ html.light .search-button .search-icon {
             }
         }
     }
-
-    #modal-content {
-        position: relative;
-        margin: 8% auto;
-        width: 80%;
-        max-width: 28rem;
-        background-color: var(--bg-0);
-        border: 1px solid var(--bg-1);
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        padding: 1rem;
-
-        h1 {
-            margin-top: 0; // Override the default 2em margin
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-
-            &::before {
-                color: var(--primary-color);
-                content: "# ";
-            }
-        }
-    }
 }
 
-#searchBar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 1rem;
+// Theme-specific highlighting for search results
+html.light .search-modal #results span:nth-child(2) b {
+    background: rgba(0, 0, 0, 0.08);
+    color: var(--text-0);
+}
 
-    // Clear button styling
-    .clear-button {
-        position: absolute;
-        right: 1.5rem;
-        background: none;
-        border: none;
-        padding: 4px;
-        cursor: pointer;
-        display: none; // Initially hidden, shown via JS when input has text
-        width: 24px;
-        height: 24px;
-
-        svg {
-            width: 100%;
-            height: 100%;
-            fill: var(--text-1); // Use your theme text color
-        }
-
-        &:hover {
-            svg {
-                fill: var(--primary-color);
-            }
-        }
-    }
-
-    // Make sure input accommodates the clear button
-    #searchInput {
-        padding-right: 2.5rem; // Give space for the clear button
-    }
+html.dark .search-modal #results span:nth-child(2) b {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-0);
 }
 
 // Mobile adjustments
