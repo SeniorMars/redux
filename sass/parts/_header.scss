@@ -28,6 +28,10 @@
      justify-content: space-between;
      padding-top: 1em;
 
+     img {
+         border: none;
+     }
+
      /* Mobile-specific adjustments */
      @media (max-width: 600px) {
          flex-direction: column;
@@ -72,6 +76,7 @@
              >img {
                  width: 16px;
                  height: 16px;
+                 border: none;
              }
 
              /* Don't display background on hover */
@@ -88,7 +93,7 @@
      background-image: unset;
 
      >img {
-         border: unset;
+         border: none;
          width: auto;
          height: 24px;
          vertical-align: middle;
@@ -102,6 +107,7 @@
  .left-nav a.social {
      border-bottom: none;
      background-image: none;
+     border: none;
  }
 
  /* TODO: Is this still used? */

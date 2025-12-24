@@ -257,7 +257,7 @@
 
     {# Table of contents #}
     {% if config.extra.toc | default(value=false) %}
-        <script src={{ get_url(path="js/toc.js") }}></script>
+        <script defer src={{ get_url(path="js/toc.js") }}></script>
     {% endif %}
 
     {% if config.extra.mathjax | default(value=false) %}
