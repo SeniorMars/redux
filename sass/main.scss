@@ -62,6 +62,8 @@ body {
   flex-grow: 1;
   min-height: calc(100vh - 150px);
 
+  flex-direction: column;
+
   /* keep the padding style from the working version */
   padding: 0.9rem;
   padding-bottom: 1.5rem;
@@ -128,3 +130,26 @@ details {
   }
 }
 
+@media (max-width: 600px) {
+  /* Use body as the single source of side padding */
+  body {
+    padding-left: calc(16px + env(safe-area-inset-left));
+    padding-right: calc(16px + env(safe-area-inset-right));
+  }
+
+  /* Prevent double-padding from .content */
+  .content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Older iOS fallback */
+@supports (padding-left: constant(safe-area-inset-left)) {
+  @media (max-width: 600px) {
+    body {
+      padding-left: calc(16px + constant(safe-area-inset-left));
+      padding-right: calc(16px + constant(safe-area-inset-right));
+    }
+  }
+}
