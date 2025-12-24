@@ -12,7 +12,7 @@
         <div class="socials">
             {% for social in config.extra.socials %}
             <a rel="me" href="{{ social.url }}" class="social">
-                <img alt="{{ social.name }}" src="{{ get_url(path=" icons/social/" ~ social.icon ~ ".svg" ) }}">
+                <img alt="{{ social.name }}" src="{{ get_url(path="icons/social/" ~ social.icon ~ ".svg" ) }}">
             </a>
             {% endfor %}
         </div>
@@ -46,7 +46,6 @@
                         <span id="zero_results" style="display:none;">No results</span>
                         <span id="one_results" style="display:none;">1 result</span>
                         <span id="many_results" style="display:none;">$NUMBER results</span>
-
                         <span id="two_results" style="display:none;">$NUMBER results</span>
                         <span id="few_results" style="display:none;">$NUMBER results</span>
                     </div>
@@ -58,7 +57,7 @@
 
         {% if config.extra.theme == "toggle" %}
         <a id="dark-mode-toggle" onclick="toggleTheme(); event.preventDefault();" href="#">
-            <img src="{{ get_url(path=" icons/sun.svg") }}" id="sun-icon" style="filter: invert(1)" alt="Light" />
+            <img src="{{ get_url(path="icons/sun.svg") }}" id="sun-icon" style="filter: invert(1)" alt="Light" />
             <img src={{ get_url(path="icons/moon.svg" ) }} id="moon-icon" alt="Dark" />
         </a>
 
