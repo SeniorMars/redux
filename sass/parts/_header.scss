@@ -72,6 +72,7 @@ nav {
             >img {
                 width: 16px;
                 height: 16px;
+                border: none !important;
             }
 
             /* Don't display background on hover */
@@ -100,7 +101,7 @@ nav {
 }
 
 #dark-mode-toggle img {
-    border: 0 !important;
+    border: none !important;
 }
 
 .left-nav a.social {
