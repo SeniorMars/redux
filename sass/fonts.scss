@@ -1,39 +1,53 @@
 @font-face {
   font-family: 'Source Serif 4';
-  src: url("fonts/SourceSerif4/SourceSerif4-Regular.ttf"), local('ttf');
+  src: url("fonts/SourceSerif4/SourceSerif4-Regular.ttf") format("truetype"),
+       local('Source Serif 4'),
+       local('SourceSerif4');
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: optional;
 }
 
 @font-face {
   font-family: 'Jetbrains Mono';
   font-style: normal;
   font-weight: 400;
-  src: url('fonts/JetbrainsMono/JetBrainsMono-Regular.ttf'), local('ttf');
-  font-display: swap;
+  src: url('fonts/JetbrainsMono/JetBrainsMono-Regular.ttf') format("truetype"),
+       local('JetBrainsMono'),
+       local('Jetbrains Mono'),
+       local('Consolas');
+  font-display: optional;
 }
 
 @font-face {
   font-family: 'Jetbrains Mono';
   font-style: normal;
   font-weight: 700;
-  src: url('fonts/JetbrainsMono/JetBrainsMono-Bold.ttf'), local('ttf');
-  font-display: swap
+  src: url('fonts/JetbrainsMono/JetBrainsMono-Bold.ttf') format("truetype"),
+       local('JetBrainsMono'),
+       local('Jetbrains Mono'),
+       local('Consolas');
+  font-display: optional;
 }
 
 @font-face {
   font-family: 'Space Grotesk';
   font-style: normal;
   font-weight: 400;
-  src: url('fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf'), local('ttf');
-  font-display: swap;
+  src: url('fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf') format("truetype"),
+       local('Space Grotesk'),
+       local('Avenir Next'),
+       local('Segoe UI');
+  font-display: optional;
 }
 
 @font-face {
   font-family: 'Space Grotesk';
   font-style: normal;
   font-weight: 700;
-  src: url('fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf'), local('ttf');
-  font-display: swap;
+  src: url('fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf') format("truetype"),
+       local('Space Grotesk'),
+       local('Avenir Next'),
+       local('Segoe UI');
+  font-display: optional;
 }

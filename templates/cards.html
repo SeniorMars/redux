@@ -16,13 +16,17 @@
 
                         {% set image = resize_image(path=path, height=media_height, op="fit_height", format="webp") %}
                         <img class="card-image"
-                             alt="{{ page.extra.local_image }}"
+                             alt="{{ page.title }}"
+                             width="{{ image.width }}"
+                             height="{{ image.height }}"
                              loading="lazy"
                              decoding="async"
                              src="{{ image.url }}" />
                     {% elif page.extra.remote_image %}
                         <img class="card-image"
-                             alt="{{ page.extra.remote_image }}"
+                             alt="{{ page.title }}"
+                             width="1200"
+                             height="610"
                              loading="lazy"
                              decoding="async"
                              src="{{ page.extra.remote_image }}" />

@@ -4,5 +4,13 @@
     <source srcset="{{ config.base_url | safe}}{{ page.path | safe }}{{ source | safe }}" type="{{ 'img/' ~ type }}">
   {% endfor -%}
   {% set image_loading = loading | default(value="lazy") %}
-  <img src="{{ fallback_path }}" alt="{{ fallback_alt }}" loading="{{ image_loading }}" decoding="async"/>
+  {% set image_width = width | default(value="") %}
+  {% set image_height = height | default(value="") %}
+  <img
+    src="{{ fallback_path }}"
+    alt="{{ fallback_alt }}"
+    {% if image_width %}width="{{ image_width }}"{% endif %}
+    {% if image_height %}height="{{ image_height }}"{% endif %}
+    loading="{{ image_loading }}"
+    decoding="async"/>
 </picture>

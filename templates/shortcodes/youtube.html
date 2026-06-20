@@ -1,7 +1,12 @@
 <div {% if class %}class="{{class}}"{% endif %}>
+    {% set iframe_width = width | default(value="560") %}
+    {% set iframe_height = height | default(value="315") %}
     <iframe
         src="https://www.youtube.com/embed/{{id}}{% if autoplay %}?autoplay=1{% endif %}"
         loading="lazy"
+        width="{{ iframe_width }}"
+        height="{{ iframe_height }}"
+        style="width: 100%; max-width: 100%; aspect-ratio: 16 / 9; height: auto;"
         webkitallowfullscreen
         mozallowfullscreen
         allowfullscreen>

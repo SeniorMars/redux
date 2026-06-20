@@ -203,10 +203,18 @@
 {# Font from cdn or disk #}
 {% if config.extra.use_cdn | default(value=false) %}
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preload" as="font" type="font/ttf" crossorigin href="https://cdn.jsdelivr.net/npm/jetbrains-mono@1.0.6/files/JetBrainsMono-Regular.ttf">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@4.5.8/files/space-grotesk-latin-400-normal.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@4.5.8/files/space-grotesk-latin-700-normal.woff2">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jetbrains-mono@1.0.6/css/jetbrains-mono.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@4.5.8/index.min.css">
 {% else %}
-    <link href="{{ get_url(path="fonts.css") }}" rel="stylesheet" />
+    <link rel="preload" as="font" type="font/ttf" href="{{ get_url(path='fonts/SourceSerif4/SourceSerif4-Regular.ttf') }}" crossorigin>
+    <link rel="preload" as="font" type="font/ttf" href="{{ get_url(path='fonts/SourceSerif4/SourceSerif4-Bold.ttf') }}" crossorigin>
+    <link rel="preload" as="font" type="font/ttf" href="{{ get_url(path='fonts/JetbrainsMono/JetBrainsMono-Regular.ttf') }}" crossorigin>
+    <link rel="preload" as="font" type="font/ttf" href="{{ get_url(path='fonts/JetbrainsMono/JetBrainsMono-Bold.ttf') }}" crossorigin>
+    <link rel="preload" as="font" type="font/ttf" href="{{ get_url(path='fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf') }}" crossorigin>
+    <link rel="preload" as="font" type="font/ttf" href="{{ get_url(path='fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf') }}" crossorigin>
 {% endif %}
 
 {# RSS #}

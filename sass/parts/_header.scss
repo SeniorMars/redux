@@ -8,11 +8,13 @@
     font-size: 2.5em;
     line-height: 100%;
     font-family: var(--header-font);
+    font-size-adjust: var(--header-font-size-adjust);
     margin: 4rem 0px 1rem 0px;
 }
 
 .centered-header {
     font-family: var(--header-font);
+    font-size-adjust: var(--header-font-size-adjust);
     position: absolute;
     top: 40%;
     left: 50%;
@@ -135,7 +137,9 @@ h3,
 h4,
 h5,
 h6 {
+    font-family: var(--header-font);
     font-size: 1.2rem;
+    font-size-adjust: var(--header-font-size-adjust);
     margin-top: 2em;
 }
 

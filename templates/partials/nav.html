@@ -1,8 +1,12 @@
 <nav>
     <div class="left-nav">
         {% if config.extra.logo %}
-            <a href="{{ config.base_url }}" class="logo">
-                <img alt="{{ config.title }}" src="{{ get_url(path=config.extra.logo) }}">
+            <a href="{{ config.base_url }}" class="logo" aria-label="{{ config.title }} home">
+                <img
+                  alt="{{ config.title }}"
+                  src="{{ get_url(path=config.extra.logo) }}"
+                  width="32"
+                  height="32" />
             </a>
         {% else %}
             <a href="{{ config.base_url }}">{{ config.title }}</a>
@@ -11,16 +15,31 @@
 
         <div class="socials">
             {% for social in config.extra.socials %}
-                <a rel="me" href="{{ social.url }}" class="social">
-                    <img alt="{{ social.name }}" src="{{ get_url(path="icons/social/" ~ social.icon ~ ".svg") }}">
+                <a rel="me" href="{{ social.url }}" class="social" aria-label="{{ social.name }}">
+                    <img
+                        alt="{{ social.name }}"
+                        src="{{ get_url(path='icons/social/' ~ social.icon ~ '.svg') }}"
+                        width="16"
+                        height="16">
                 </a>
-            {% endfor %}
-        </div>
+        {% endfor %}
+    </div>
     </div>
 
     <div class="right-nav">
         {% for menu in config.extra.menu %}
-            <a href="{{ get_url(path=menu.url) }}" style="margin-right: 0.5em">{{ menu.name }}</a>
+            {% set menu_label = menu.name %}
+            {% if menu.url == "/etc" %}
+                {% set menu_label = "Other" %}
+            {% elif menu_label is starting_with("/") %}
+                {% set menu_label = menu_label | trim_start_matches(pat="/") %}
+                {% if menu_label == "" %}
+                    {% set menu_label = "Home" %}
+                {% else %}
+                    {% set menu_label = menu_label | capitalize %}
+                {% endif %}
+            {% endif %}
+            <a href="{{ get_url(path=menu.url) }}" style="margin-right: 0.5em">{{ menu_label }}</a>
         {% endfor %}
 
         {% if config.build_search_index %}
@@ -33,7 +52,9 @@
                     aria-expanded="false">
                 <img src="{{ get_url(path='icons/search.svg') }}"
                     alt=""
-                    class="search-icon">
+                    class="search-icon"
+                    width="16"
+                    height="16">
             </button>
 
             <div id="searchModal"
@@ -85,10 +106,14 @@
                     id="sun-icon"
                     style="filter: invert(1)"
                     alt=""
+                    width="16"
+                    height="16"
                     aria-hidden="true" />
                 <img src="{{ get_url(path="icons/moon.svg") }}"
                     id="moon-icon"
                     alt=""
+                    width="16"
+                    height="16"
                     aria-hidden="true" />
             </button>
         {% endif %}
