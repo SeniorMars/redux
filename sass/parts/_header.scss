@@ -55,7 +55,6 @@ nav {
             .social img {
                 width: 16px;
                 height: 16px;
-
             }
         }
     }
@@ -89,7 +88,6 @@ nav {
                 width: 16px;
                 height: 16px;
                 outline: none;
-                border: none !important;
                 display: inline-block;
                 vertical-align: middle;
             }
@@ -100,6 +98,23 @@ nav {
             }
         }
     }
+}
+
+nav .social img,
+nav .search-icon,
+nav .theme-toggle-icon {
+    border: none !important;
+    border-radius: 0;
+}
+
+html.dark nav .social img,
+html.dark nav .search-icon,
+html.dark nav .theme-toggle-icon {
+    filter: invert(1);
+}
+
+#dark-mode-toggle > .theme-toggle-icon[hidden] {
+    display: none !important;
 }
 
 /* TODO: Is this still used? */
