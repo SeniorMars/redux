@@ -62,9 +62,11 @@
 
         const sunIcon = document.getElementById("sun-icon");
         const moonIcon = document.getElementById("moon-icon");
+        const isDark = activeMode === "dark";
+
         if (sunIcon && moonIcon) {
-            sunIcon.style.display = activeMode === "dark" ? "block" : "none";
-            moonIcon.style.display = activeMode === "light" ? "block" : "none";
+            sunIcon.hidden = !isDark;
+            moonIcon.hidden = isDark;
         }
 
         const toggleButton = document.getElementById("dark-mode-toggle");
@@ -85,7 +87,11 @@
         applyTheme(activeMode);
     }
 
-    function toggleTheme() {
+    function toggleTheme(event) {
+        if (event && typeof event.preventDefault === "function") {
+            event.preventDefault();
+        }
+
         setTheme(getActiveTheme() === "dark" ? "light" : "dark");
     }
 

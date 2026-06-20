@@ -80,10 +80,18 @@ nav {
             margin-left: 0.5rem;
             padding: 0.1rem;
 
+            &:focus-visible {
+                outline: 2px solid var(--primary-color);
+                outline-offset: 2px;
+            }
+
             >img {
                 width: 16px;
                 height: 16px;
+                outline: none;
                 border: none !important;
+                display: inline-block;
+                vertical-align: middle;
             }
 
             /* Don't display background on hover */
