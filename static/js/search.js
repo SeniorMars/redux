@@ -1,9 +1,14 @@
-window.onload = function () {
-  if (!document.body.contains(document.getElementById("searchModal"))) {
-    return;
-  }
+(function () {
+  function initSearch() {
+    if (!document.body.contains(document.getElementById("searchModal"))) {
+      return;
+    }
 
-  const lang = document.documentElement.lang;
+    if (window.reduxSearch && window.reduxSearch.ready) {
+      return;
+    }
+
+  const lang = document.documentElement.lang.substring(0, 2);
   const searchInput = document.getElementById("searchInput");
   const searchModal = document.getElementById("searchModal");
   const searchButton = document.getElementById("search-button");
@@ -12,19 +17,37 @@ window.onload = function () {
   const results = document.getElementById("results");
   // Get all spans holding the translated strings, even if they are only used on one language.
   const zeroResultsSpan = document.getElementById("zero_results");
-  const oneResultsSpan = document.getElementById("one_results");
+  const oneResultsSpan = document.getElementById("one_result");
   const twoResultsSpan = document.getElementById("two_results");
   const fewResultsSpan = document.getElementById("few_results");
   const manyResultsSpan = document.getElementById("many_results");
+  const loadingResultsSpan = document.getElementById("loading_results");
+  const errorResultsSpan = document.getElementById("error_results");
+  const limitedResultsSpan = document.getElementById("limited_results");
+  const limitedResultsTemplate = limitedResultsSpan
+    ? limitedResultsSpan.textContent
+    : "";
+  const SEARCH_DEBOUNCE_MS = 120;
+  const MAX_DISPLAYED_RESULTS = 20;
+  let searchDebounceTimer = null;
+  let searchRequestId = 0;
 
   // Static mapping of keys to spans.
   const resultSpans = {
     zero_results: zeroResultsSpan,
-    one_results: oneResultsSpan,
+    one_result: oneResultsSpan,
     two_results: twoResultsSpan,
     few_results: fewResultsSpan,
     many_results: manyResultsSpan,
+    loading_results: loadingResultsSpan,
+    error_results: errorResultsSpan,
   };
+  const resultTextTemplates = Object.fromEntries(
+    Object.entries(resultSpans).map(([key, span]) => [
+      key,
+      span ? span.textContent : "",
+    ]),
+  );
 
   // Replace $SHORTCUT in search icon title with actual OS-specific shortcut.
   function getShortcut() {
@@ -56,15 +79,27 @@ window.onload = function () {
   });
 
   let lastFocusedElement;
+  function isSearchModalOpen() {
+    return searchModal.style.display === "block";
+  }
+
   function openSearchModal() {
+    if (isSearchModalOpen()) {
+      searchInput.focus();
+      return;
+    }
     lastFocusedElement = document.activeElement;
-    loadSearchIndex();
+    loadSearchIndex().catch(() => {});
     searchModal.style.display = "block";
+    searchModal.setAttribute("aria-hidden", "false");
+    searchButton.setAttribute("aria-expanded", "true");
     searchInput.focus();
   }
 
   function closeModal() {
     searchModal.style.display = "none";
+    searchModal.setAttribute("aria-hidden", "true");
+    searchButton.setAttribute("aria-expanded", "false");
     clearSearch();
     if (lastFocusedElement && document.body.contains(lastFocusedElement)) {
       lastFocusedElement.focus();
@@ -72,7 +107,7 @@ window.onload = function () {
   }
 
   function toggleModalVisibility() {
-    const isModalOpen = searchModal.style.display === "block";
+    const isModalOpen = isSearchModalOpen();
     if (isModalOpen) {
       closeModal();
     } else {
@@ -99,10 +134,13 @@ window.onload = function () {
   }
 
   function clearSearch() {
+    searchRequestId++;
+    clearTimeout(searchDebounceTimer);
     searchInput.value = "";
     results.innerHTML = "";
     resultsContainer.style.display = "none";
     searchInput.removeAttribute("aria-activedescendant");
+    searchInput.setAttribute("aria-expanded", "false");
     clearSearchButton.style.display = "none";
   }
 
@@ -120,7 +158,7 @@ window.onload = function () {
 
   // Close modal when pressing escape.
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && isSearchModalOpen()) {
       closeModal();
     }
   });
@@ -169,10 +207,20 @@ window.onload = function () {
         searchIndexPromise = fetch(
           basePath + "/search_index." + language + ".json",
         )
-          .then((response) => response.json())
-          .then((json) => elasticlunr.Index.load(json));
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Search index request failed");
+            }
+            return response.json();
+          })
+          .then((json) => elasticlunr.Index.load(json))
+          .catch((error) => {
+            searchIndexPromise = null;
+            throw error;
+          });
       }
     }
+    return searchIndexPromise;
   }
 
   function getByteByBinary(binaryCode) {
@@ -241,6 +289,37 @@ window.onload = function () {
     return result;
   }
 
+  function truncateSnippetParts(parts, maxLength) {
+    const truncated = [];
+    let remaining = maxLength;
+    let didTruncate = false;
+
+    for (const part of parts) {
+      if (remaining <= 0) {
+        didTruncate = true;
+        break;
+      }
+
+      if (part.text.length > remaining) {
+        truncated.push({
+          text: part.text.substring(0, remaining),
+          highlight: part.highlight,
+        });
+        didTruncate = true;
+        break;
+      }
+
+      truncated.push(part);
+      remaining -= part.text.length;
+    }
+
+    if (didTruncate) {
+      truncated.push({ text: "…", highlight: false });
+    }
+
+    return truncated;
+  }
+
   function generateSnippet(text, searchTerms) {
     const BASE_SCORE = 2;
     const FIRST_WORD_SCORE = 8;
@@ -278,9 +357,12 @@ window.onload = function () {
     }
 
     if (tokenScores.length === 0) {
-      return text.length > SNIPPET_LENGTH
-        ? text.substring(0, SNIPPET_LENGTH) + "…"
-        : text;
+      return [{
+        text: text.length > SNIPPET_LENGTH
+          ? text.substring(0, SNIPPET_LENGTH) + "…"
+          : text,
+        highlight: false,
+      }];
     }
 
     const scores = [];
@@ -308,6 +390,18 @@ window.onload = function () {
     }
 
     const snippet = [];
+    function appendSnippetText(text, highlight = false) {
+      if (!text) {
+        return;
+      }
+      const lastPart = snippet[snippet.length - 1];
+      if (lastPart && lastPart.highlight === highlight) {
+        lastPart.text += text;
+      } else {
+        snippet.push({ text, highlight });
+      }
+    }
+
     // From my testing, the context is more clear if we start a few words back.
     let start = adjustStartPos(
       text,
@@ -337,102 +431,124 @@ window.onload = function () {
     ) {
       const wordData = tokenScores[i];
       if (start < wordData[2]) {
-        snippet.push(text.substring(start, wordData[2]));
+        appendSnippetText(text.substring(start, wordData[2]));
         start = wordData[2];
       }
 
-      if (wordData[1] === HIGHLIGHT_SCORE) {
-        snippet.push("<b>");
-      }
       const end = wordData[2] + wordData[0].length;
+      let snippetText;
       // Handle non-ASCII characters.
       if (!re.test(wordData[0]) && wordData[0].length >= 12) {
         const strBefore = text.substring(wordData[2], end);
-        const strAfter = substringByByte(strBefore, 12);
-        snippet.push(strAfter);
+        snippetText = substringByByte(strBefore, 12);
       } else {
-        snippet.push(text.substring(wordData[2], end));
+        snippetText = text.substring(wordData[2], end);
       }
-
-      if (wordData[1] === HIGHLIGHT_SCORE) {
-        snippet.push("</b>");
-      }
+      appendSnippetText(snippetText, wordData[1] === HIGHLIGHT_SCORE);
       start = end;
     }
 
-    snippet.push("…");
-    const joinedSnippet = snippet.join("");
-    let truncatedSnippet = joinedSnippet;
-    if (joinedSnippet.replace(/<[^>]+>/g, "").length > SNIPPET_LENGTH) {
-      truncatedSnippet = joinedSnippet.substring(0, SNIPPET_LENGTH) + "…";
-    }
-
-    return truncatedSnippet;
+    appendSnippetText("…");
+    return truncateSnippetParts(snippet, SNIPPET_LENGTH);
   }
 
-  // Handle input in the search box.
-  searchInput.addEventListener(
-    "input",
-    async function () {
-      const inputValue = this.value;
-      const searchTerm = inputValue.trim();
-      const searchIndex = await searchIndexPromise;
+  function getSearchOptions(bool) {
+    return {
+      bool,
+      fields: {
+        title: { boost: 3 },
+        body: { boost: 2 },
+        description: { boost: 1 },
+        path: { boost: 1 },
+      },
+    };
+  }
+
+  function searchDocuments(searchIndex, searchTerm) {
+    const strictResults = searchIndex.search(
+      searchTerm,
+      getSearchOptions("AND"),
+    );
+    if (strictResults.length > 0) {
+      return strictResults;
+    }
+    return searchIndex.search(searchTerm, getSearchOptions("OR"));
+  }
+
+  function renderSnippet(snippetElement, snippetParts) {
+    snippetElement.textContent = "";
+    snippetParts.forEach((part) => {
+      if (part.highlight) {
+        const mark = document.createElement("mark");
+        mark.textContent = part.text;
+        snippetElement.appendChild(mark);
+      } else {
+        snippetElement.appendChild(document.createTextNode(part.text));
+      }
+    });
+  }
+
+  function createResultElement(result, resultId, searchTerms, searchTerm) {
+    if (!result.doc.title && !result.doc.path && !result.doc.id) {
+      return null;
+    }
+
+    const resultDiv = document.createElement("div");
+    const linkElement = document.createElement("a");
+    const titleElement = document.createElement("span");
+    const snippetElement = document.createElement("span");
+
+    resultDiv.setAttribute("role", "option");
+    resultDiv.id = "result-" + resultId;
+    titleElement.textContent = result.doc.title || result.doc.path ||
+      result.doc.id;
+
+    if (result.doc.body) {
+      renderSnippet(
+        snippetElement,
+        generateSnippet(result.doc.body, searchTerms),
+      );
+    } else if (result.doc.description) {
+      snippetElement.textContent = result.doc.description;
+    }
+
+    let href = result.ref;
+    if (result.doc.body) {
+      href += `#:~:text=${encodeURIComponent(searchTerm)}`;
+    }
+    linkElement.href = href;
+    linkElement.append(titleElement, snippetElement);
+    resultDiv.appendChild(linkElement);
+
+    return resultDiv;
+  }
+
+  async function runSearch(searchTerm, requestId) {
+    showResultInfo("loading_results");
+
+    try {
+      const searchIndex = await loadSearchIndex();
+      if (requestId !== searchRequestId || searchTerm !== searchInput.value.trim()) {
+        return;
+      }
+
+      const searchTerms = searchTerm.split(/\s+/);
+      const searchResults = searchDocuments(searchIndex, searchTerm);
       results.innerHTML = "";
-
-      // Use the raw input so the "clear" button appears even if there's only spaces.
-      clearSearchButton.style.display = inputValue.length > 0
-        ? "block"
-        : "none";
-      resultsContainer.style.display = searchTerm.length > 0 ? "block" : "none";
-
-      // Perform the search and store the results.
-      const searchResults = searchIndex.search(searchTerm, {
-        bool: "OR",
-        fields: {
-          title: { boost: 3 },
-          body: { boost: 2 },
-          description: { boost: 1 },
-          path: { boost: 1 },
-        },
-      });
-
-      // Update the number of results.
       updateResultText(searchResults.length);
+      updateResultLimitText(searchResults.length);
 
-      // Display the results.
-      let resultIdCounter = 0; // Counter to generate unique IDs.
-      searchResults.forEach(function (result) {
-        if (result.doc.title || result.doc.path || result.doc.id) {
-          const resultDiv = document.createElement("div");
-          resultDiv.setAttribute("role", "option");
-          resultDiv.id = "result-" + resultIdCounter++;
-          resultDiv.innerHTML = "<a href><span></span><span></span></a>";
-          const linkElement = resultDiv.querySelector("a");
-          const titleElement = resultDiv.querySelector("span:first-child");
-          const snippetElement = resultDiv.querySelector("span:nth-child(2)");
-
-          // Determine the text for the title.
-          titleElement.textContent = result.doc.title || result.doc.path ||
-            result.doc.id;
-
-          // Determine if the body or description is available for the snippet.
-          let snippetText = result.doc.body
-            ? generateSnippet(result.doc.body, searchTerm.split(/\s+/))
-            : result.doc.description
-            ? result.doc.description
-            : "";
-          snippetElement.innerHTML = snippetText;
-
-          // Create the hyperlink.
-          let href = result.ref;
-          if (result.doc.body) {
-            // Include text fragment if body is available.
-            const encodedSearchTerm = encodeURIComponent(searchTerm);
-            href += `#:~:text=${encodedSearchTerm}`;
-          }
-          linkElement.href = href;
-
-          results.appendChild(resultDiv);
+      let resultIdCounter = 0;
+      searchResults.slice(0, MAX_DISPLAYED_RESULTS).forEach(function (result) {
+        const resultElement = createResultElement(
+          result,
+          resultIdCounter,
+          searchTerms,
+          searchTerm,
+        );
+        if (resultElement) {
+          resultIdCounter++;
+          results.appendChild(resultElement);
         }
       });
 
@@ -444,42 +560,86 @@ window.onload = function () {
       if (results.firstChild) {
         updateSelection(results.firstChild);
       }
+    } catch (_error) {
+      if (requestId !== searchRequestId) {
+        return;
+      }
+      results.innerHTML = "";
+      searchInput.setAttribute("aria-expanded", "false");
+      showResultInfo("error_results");
+    }
+  }
 
-      results.addEventListener("mouseover", function (event) {
-        if (event.target.closest('div[role="option"]')) {
-          updateSelection(event.target.closest('div[role="option"]'));
-        }
-      });
+  // Handle input in the search box.
+  searchInput.addEventListener("input", function () {
+    const inputValue = this.value;
+    const searchTerm = inputValue.trim();
+    const requestId = ++searchRequestId;
 
-      results.addEventListener("click", function (event) {
-        const clickedElement = event.target.closest("a");
-        if (clickedElement) {
-          const clickedHref = clickedElement.getAttribute("href");
-          const currentPageUrl = window.location.href;
+    clearTimeout(searchDebounceTimer);
+    results.innerHTML = "";
+    searchInput.removeAttribute("aria-activedescendant");
+    searchInput.setAttribute("aria-expanded", "false");
 
-          // Normalise URLs by removing the text fragment and trailing slash.
-          const normalizeUrl = (url) => url.split("#")[0].replace(/\/$/, "");
+    // Use the raw input so the "clear" button appears even if there's only spaces.
+    clearSearchButton.style.display = inputValue.length > 0
+      ? "block"
+      : "none";
+    resultsContainer.style.display = searchTerm.length > 0 ? "block" : "none";
 
-          // Check if the clicked link matches the current page.
-          // If using Ctrl+click or Cmd+click, don't close the modal.
-          if (
-            normalizeUrl(clickedHref) === normalizeUrl(currentPageUrl) &&
-            !event.ctrlKey && !event.metaKey
-          ) {
-            closeModal();
-          }
-        }
-      });
+    if (searchTerm.length === 0) {
+      updateResultText(0);
+      return;
+    }
 
-      // Add touch events to the results.
-      setupTouchEvents();
+    showResultInfo("loading_results");
+    searchDebounceTimer = setTimeout(() => {
+      runSearch(searchTerm, requestId);
+    }, SEARCH_DEBOUNCE_MS);
+  });
+
+  results.addEventListener("mouseover", function (event) {
+    const resultDiv = event.target.closest('div[role="option"]');
+    if (resultDiv && results.contains(resultDiv)) {
+      updateSelection(resultDiv);
+    }
+  });
+
+  results.addEventListener("click", function (event) {
+    const clickedElement = event.target.closest("a");
+    if (!clickedElement || !results.contains(clickedElement)) {
+      return;
+    }
+
+    const clickedHref = clickedElement.getAttribute("href");
+    const currentPageUrl = window.location.href;
+
+    // Normalise URLs by removing the text fragment and trailing slash.
+    const normalizeUrl = (url) => url.split("#")[0].replace(/\/$/, "");
+
+    // Check if the clicked link matches the current page.
+    // If using Ctrl+click or Cmd+click, don't close the modal.
+    if (
+      normalizeUrl(clickedHref) === normalizeUrl(currentPageUrl) &&
+      !event.ctrlKey && !event.metaKey
+    ) {
+      closeModal();
+    }
+  });
+
+  results.addEventListener(
+    "touchstart",
+    function (event) {
+      const resultDiv = event.target.closest('div[role="option"]');
+      if (resultDiv && results.contains(resultDiv)) {
+        updateSelection(resultDiv);
+      }
     },
-    true,
+    { passive: true },
   );
 
-  function updateResultText(count) {
-    // Determine the correct pluralization key based on count and language.
-    const pluralizationKey = getPluralizationKey(count, lang);
+  function showResultInfo(key, count = 0) {
+    hideResultLimitText();
 
     // Hide all result text spans.
     Object.values(resultSpans).forEach((span) => {
@@ -487,21 +647,35 @@ window.onload = function () {
     });
 
     // Show the relevant result text span, replacing $NUMBER with the actual count.
-    const activeSpan = resultSpans[pluralizationKey];
+    const activeSpan = resultSpans[key] || resultSpans.many_results;
+    const template = resultTextTemplates[key] || resultTextTemplates.many_results;
     if (activeSpan) {
       activeSpan.style.display = "inline";
-
-      // FIX: Store original template on first use
-      if (!activeSpan.dataset.template) {
-        activeSpan.dataset.template = activeSpan.textContent;
-      }
-
-      // Always replace from the original template
-      activeSpan.textContent = activeSpan.dataset.template.replace(
-        "$NUMBER",
-        count.toString(),
-      );
+      activeSpan.textContent = template.replace("$NUMBER", count.toString());
     }
+  }
+
+  function updateResultText(count) {
+    // Determine the correct pluralization key based on count and language.
+    showResultInfo(getPluralizationKey(count, lang), count);
+  }
+
+  function hideResultLimitText() {
+    if (limitedResultsSpan) {
+      limitedResultsSpan.style.display = "none";
+    }
+  }
+
+  function updateResultLimitText(count) {
+    if (!limitedResultsSpan || count <= MAX_DISPLAYED_RESULTS) {
+      hideResultLimitText();
+      return;
+    }
+
+    limitedResultsSpan.style.display = "inline";
+    limitedResultsSpan.textContent = limitedResultsTemplate
+      .replace("$LIMIT", MAX_DISPLAYED_RESULTS.toString())
+      .replace("$NUMBER", count.toString());
   }
 
   function getPluralizationKey(count, lang) {
@@ -512,7 +686,7 @@ window.onload = function () {
     if (count === 0) {
       key = "zero_results";
     } else if (count === 1) {
-      key = "one_results";
+      key = "one_result";
     } else {
       // Arabic.
       if (lang === "ar") {
@@ -529,7 +703,7 @@ window.onload = function () {
         let modulo10 = count % 10;
         let modulo100 = count % 100;
         if (modulo10 === 1 && modulo100 !== 11) {
-          key = "one_results";
+          key = "one_result";
         } else if (
           modulo10 >= 2 &&
           modulo10 <= 4 &&
@@ -545,19 +719,6 @@ window.onload = function () {
     }
 
     return key;
-  }
-
-  function setupTouchEvents() {
-    const resultDivs = document.querySelectorAll("#results > div");
-    resultDivs.forEach((div) => {
-      // Remove existing listener to avoid duplicates.
-      div.removeEventListener("touchstart", handleTouchStart);
-      div.addEventListener("touchstart", handleTouchStart, { passive: true });
-    });
-  }
-
-  function handleTouchStart() {
-    updateSelection(this);
   }
 
   // Handle keyboard navigation.
@@ -642,4 +803,24 @@ window.onload = function () {
       closeModal(); // Necessary when linking to the current page.
     }
   });
-};
+
+  window.reduxSearch = {
+    close: closeModal,
+    open: openSearchModal,
+    preload: loadSearchIndex,
+    ready: true,
+  };
+  window.dispatchEvent(new CustomEvent("redux:search-ready"));
+
+  if (window.__reduxOpenSearchOnReady) {
+    window.__reduxOpenSearchOnReady = false;
+    openSearchModal();
+  }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSearch);
+  } else {
+    initSearch();
+  }
+})();

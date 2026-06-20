@@ -25,15 +25,21 @@ skip_anchor_prefixes = [
 ]
 
 [markdown]
-highlight_code = true
 render_emoji = true
 smart_punctuation = true
-highlight_theme = "ayu-dark"
 external_links_no_referrer = true
+lazy_async_image = true
 bottom_footnotes = true
+
+[markdown.highlighting]
+style = "class"
+light_theme = "github-light"
+dark_theme = "github-dark"
 
 [extra]
 toc = true
+toc_inline = true
+toc_sidebar = true
 use_cdn = false
 favicon = "/icon/favicon.png"
 favicon_extra = false
@@ -44,7 +50,12 @@ dynamic_note = true
 repo_url = "https://github.com/SeniorMars/seniormars.com/blob/main/content/"
 mathjax = true
 mathjax_extra = true
+mathjax_asciimath = false
+mathjax_dollar_inline_enable = true
+mathjax_accessibility = false
+mathjax_load = "idle"
 mermaid = true
+mermaid_load = "visible"
 mobile = true
 browser_theme_color = ["#FFFFFF", "#0E1018"]
 

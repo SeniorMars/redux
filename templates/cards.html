@@ -17,22 +17,26 @@
                         {% set image = resize_image(path=path, height=media_height, op="fit_height", format="webp") %}
                         <img class="card-image"
                              alt="{{ page.extra.local_image }}"
+                             loading="lazy"
+                             decoding="async"
                              src="{{ image.url }}" />
                     {% elif page.extra.remote_image %}
                         <img class="card-image"
                              alt="{{ page.extra.remote_image }}"
+                             loading="lazy"
+                             decoding="async"
                              src="{{ page.extra.remote_image }}" />
                     {% elif page.extra.local_video %}
                         {% set video_path = page.extra.local_video %}
                         {% if video_path is not starting_with("/") %}
                             {% set video_path = section.path ~ "/" ~ page.extra.local_video %}
                         {% endif %}
-                        <video class="card-video" controls autoplay loop muted>
+                        <video class="card-video" controls autoplay loop muted playsinline preload="metadata">
                             <source src="{{ video_path | safe }}">
                             Your browser does not support the video tag.
                         </video>
                     {% elif page.extra.remote_video %}
-                        <video class="card-video" controls autoplay loop muted>
+                        <video class="card-video" controls autoplay loop muted playsinline preload="metadata">
                             <source src="{{ page.extra.remote_video | safe }}">
                             Your browser does not support the video tag.
                         </video>
@@ -45,9 +49,9 @@
                 <div class="card-info">
                     <h1 class="card-title">
                         {% if page.extra.link_to %}
-                            <a href={{ page.extra.link_to }}>{{ page.title }}</a>
+                            <a href="{{ page.extra.link_to }}">{{ page.title }}</a>
                         {% else %}
-                            <a href={{ page.permalink | safe }}>{{ page.title }}</a>
+                            <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
                         {% endif %}
                     </h1>
 
@@ -92,18 +96,6 @@
     </main>
 
     {% if paginator %}
-        <ul class="pagination">
-            {% if paginator.previous %}
-                <span class="page-item page-prev">
-                    <a href={{ paginator.previous }} class="page-link" aria-label="Previous"><span aria-hidden="true">← Prev</span></a>
-                </span>
-            {% endif %}
-
-            {% if paginator.next %}
-                <span class="page-item page-next">
-                    <a href={{ paginator.next }} class="page-link" aria-label="Next"><span aria-hidden="true">Next →</span></a>
-                </span>
-            {% endif %}
-        </ul>
+        {{ post_macros::pagination(paginator=paginator) }}
     {% endif %}
 {% endblock main_content %}

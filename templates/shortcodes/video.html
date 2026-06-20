@@ -1,4 +1,4 @@
- <video controls>
+ <video controls preload="metadata">
   {% for source in sources -%}
     {% set type = source | split(pat=".") | last -%}
     <source src="{{ config.base_url | safe }}{{ page.path | safe }}{{ source | safe }}" type="{{ 'video/' ~ type }}">

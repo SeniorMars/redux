@@ -56,7 +56,7 @@ a:hover {
 }
 
 time {
-  color: grey;
+  color: var(--text-1);
 }
 
 /* Remove post list padding */
@@ -125,7 +125,12 @@ del {
 
 /* Remove styling from theme toggle button */
 #dark-mode-toggle {
-  border-bottom: none;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
 
   &:hover {
     background-color: transparent;

@@ -7,14 +7,18 @@
 <div class="character-note character-{{ character_name }} character-{{ character_type }} character-{{ character_position }}">
     <div class="character-avatar">
         {% if character_image and character_image != "" %}
-            <img src="{{ get_url(path = 'images/characters/{{ character_image }}') }}"
+            <img src="{{ get_url(path = 'images/characters/' ~ character_image) }}"
                  alt="{{ character_name }}"
+                 loading="lazy"
+                 decoding="async"
                  style="border: none !important;"
                  width="80"
                  height="80" />
         {% elif character_name == "hooded" %}
             <img src="{{ get_url(path = 'images/characters/hooded.png') }}"
                  alt="hooded"
+                 loading="lazy"
+                 decoding="async"
                  style="border: none !important;"
                  width="80"
                  height="80" />

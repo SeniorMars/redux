@@ -66,6 +66,15 @@ nav {
         gap: 0.25rem; // optional: spacing handled by flex gap instead of inline styles
 
         #dark-mode-toggle {
+            align-items: center;
+            appearance: none;
+            background: transparent;
+            border: 0;
+            color: inherit;
+            cursor: pointer;
+            display: inline-flex;
+            font: inherit;
+            justify-content: center;
             margin-left: 0.5rem;
             padding: 0.1rem;
 
@@ -111,7 +120,7 @@ nav {
 
 /* TODO: Is this still used? */
 .meta {
-    color: #999;
+    color: var(--text-1);
     display: block;
     /* This changes the meta class to use flexbox, which ensures inline display */
     align-items: center;

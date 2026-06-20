@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "scripts": {
+    "build:js": "npm run minify:search-elasticlunr && npm run minify:search && npm run minify:loaders",
+    "minify:js": "npm run build:js",
+    "minify:search-elasticlunr": "terser static/js/searchElasticlunr.js --compress --mangle --comments \"/@license|MIT Licensed/\" --source-map \"url='searchElasticlunr.min.js.map',includeSources\" --output static/js/searchElasticlunr.min.js",
+    "minify:search": "terser static/js/search.js --compress --mangle --source-map \"url='search.min.js.map',includeSources\" --output static/js/search.min.js",
+    "minify:loaders": "npm run minify:search-loader && npm run minify:mathjax-loader && npm run minify:mermaid-loader && npm run minify:count-loader",
+    "minify:search-loader": "terser static/js/search-loader.js --compress --mangle --source-map \"url='search-loader.min.js.map',includeSources\" --output static/js/search-loader.min.js",
+    "minify:mathjax-loader": "terser static/js/mathjax-loader.js --compress --mangle --source-map \"url='mathjax-loader.min.js.map',includeSources\" --output static/js/mathjax-loader.min.js",
+    "minify:mermaid-loader": "terser static/js/mermaid-loader.js --compress --mangle --source-map \"url='mermaid-loader.min.js.map',includeSources\" --output static/js/mermaid-loader.min.js",
+    "minify:count-loader": "terser static/js/count-loader.js --compress --mangle --source-map \"url='count-loader.min.js.map',includeSources\" --output static/js/count-loader.min.js"
+  },
+  "devDependencies": {
+    "terser": "5.43.1"
+  }
+}

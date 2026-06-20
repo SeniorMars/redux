@@ -1,0 +1,22 @@
+{# Search #}
+{%- if config.build_search_index -%}
+    {%- if config.search.index_format -%}
+        {%- set search_index_format = config.search.index_format -%}
+    {%- elif config.extra.index_format -%}
+        {# Necessary to support Zola 0.17.X, as it doesn't have access to config.search.index_format #}
+        {# See: https://github.com/getzola/zola/issues/2165 #}
+        {%- set search_index_format = config.extra.index_format -%}
+    {%- else -%}
+        {%- set search_index_format = "elasticlunr_json" -%}
+    {%- endif -%}
+
+    <script
+        defer
+        src="{{ get_url(path='js/search-loader.min.js', cachebust=true) | safe }}"
+        data-elasticlunr-src="{{ get_url(path='js/searchElasticlunr.min.js', cachebust=true) | safe }}"
+        data-search-src="{{ get_url(path='js/search.min.js', cachebust=true) | safe }}"
+        {% if search_index_format == "elasticlunr_javascript" -%}
+        data-search-index-src="{{ get_url(path='search_index.' ~ lang ~ '.js', cachebust=true) | safe }}"
+        {%- endif -%}>
+    </script>
+{%- endif -%}

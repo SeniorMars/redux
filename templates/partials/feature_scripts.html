@@ -1,0 +1,93 @@
+{# Fancy Codeblock #}
+{% if config.extra.fancy_code %}
+    <script defer src="{{ get_url(path="js/codeblock.js") }}"></script>
+{% endif %}
+
+{# Dynamic note #}
+{% if config.extra.dynamic_note | default(value=false) %}
+    <script defer src="{{ get_url(path="js/note.js") }}"></script>
+{% endif %}
+
+{# Better Mobile #}
+{% if config.extra.mobile %}
+    <script src="{{ get_url(path="js/mobile.js") }}"></script>
+{% endif %}
+
+{# Table of contents #}
+{% if config.extra.toc | default(value=false) %}
+    <script defer src="{{ get_url(path="js/toc.js") }}"></script>
+{% endif %}
+
+{% if config.extra.mathjax | default(value=false) %}
+    {% set mathjax_extra = config.extra.mathjax_extra | default(value=false) %}
+    {% set mathjax_dollar_inline = config.extra.mathjax_dollar_inline_enable | default(value=mathjax_extra) %}
+    {% if config.extra.mathjax_asciimath is defined %}
+        {% set mathjax_asciimath = config.extra.mathjax_asciimath %}
+    {% else %}
+        {% set mathjax_asciimath = mathjax_extra %}
+    {% endif %}
+    {% set mathjax_accessibility = config.extra.mathjax_accessibility | default(value=false) %}
+    {% set mathjax_load = config.extra.mathjax_load | default(value="idle") %}
+    {% set mathjax_src = config.extra.mathjax_src | default(value="https://cdn.jsdelivr.net/npm/mathjax@4.1/tex-mml-chtml.js") %}
+    <script>
+        window.MathJax = {
+          startup: {
+            typeset: false
+          },
+          options: {
+            enableMenu: {% if mathjax_accessibility %}true{% else %}false{% endif %},
+            enableEnrichment: {% if mathjax_accessibility %}true{% else %}false{% endif %},
+            enableSpeech: {% if mathjax_accessibility %}true{% else %}false{% endif %},
+            enableBraille: {% if mathjax_accessibility %}true{% else %}false{% endif %},
+            enableExplorer: {% if mathjax_accessibility %}true{% else %}false{% endif %},
+            menuOptions: {
+              settings: {
+                enrich: {% if mathjax_accessibility %}true{% else %}false{% endif %},
+                speech: {% if mathjax_accessibility %}true{% else %}false{% endif %},
+                braille: {% if mathjax_accessibility %}true{% else %}false{% endif %},
+                assistiveMml: {% if mathjax_accessibility %}true{% else %}false{% endif %}
+              }
+            }
+          },
+          {% if mathjax_asciimath %}loader: { load: ['input/asciimath'] },{% endif %}
+          {% if mathjax_extra %}
+          output: {
+              displayOverflow: 'linebreak',
+                  linebreaks: {
+                      inline: true,
+                      width: '100%',
+                      lineleading: .2,
+                      LinebreakVisitor: null,
+              }
+          },
+          {% endif %}
+          {% if mathjax_dollar_inline %}
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            processEscapes: true,
+          },
+          {% endif %}
+          svg: {
+            fontCache: 'global'
+          }
+        };
+    </script>
+    <script
+        defer
+        src="{{ get_url(path="js/mathjax-loader.min.js") }}"
+        data-mathjax-src="{{ mathjax_src }}"
+        data-dollar-inline="{% if mathjax_dollar_inline %}true{% else %}false{% endif %}"
+        data-load-strategy="{{ mathjax_load }}">
+    </script>
+{% endif %}
+
+{# Mermaid #}
+{% if config.extra.mermaid | default(value=false) %}
+    {% set mermaid_load = config.extra.mermaid_load | default(value="visible") %}
+    <script
+        defer
+        src="{{ get_url(path="js/mermaid-loader.min.js") }}"
+        data-mermaid-src="{{ get_url(path="js/mermaid.js") }}"
+        data-load-strategy="{{ mermaid_load }}">
+    </script>
+{% endif %}

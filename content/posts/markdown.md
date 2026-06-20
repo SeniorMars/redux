@@ -181,7 +181,14 @@ graph LR
 {% end %}
 
 ```rust
-{{ remote_text(src="https://raw.githubusercontent.com/SeniorMars/seniormars.com/refs/heads/main/content/posts/everyday_birthday/src/flajolet.rs") }}
+fn approximate_birthday_probability(days: f64, people: f64) -> f64 {
+    if people <= 1.0 {
+        return 0.0;
+    }
+
+    let pairs = people * (people - 1.0) / 2.0;
+    1.0 - (-pairs / days).exp()
+}
 ```
 
 {{ spoiler(text="text to hide", fixed_blur=false) }}
@@ -200,7 +207,14 @@ graph LR
 {%- end -%}
 
 ```rust
-{{/* remote_text(src="https://raw.githubusercontent.com/SeniorMars/seniormars.com/refs/heads/main/content/posts/everyday_birthday/src/flajolet.rs") *\}}
+fn approximate_birthday_probability(days: f64, people: f64) -> f64 {
+    if people <= 1.0 {
+        return 0.0;
+    }
+
+    let pairs = people * (people - 1.0) / 2.0;
+    1.0 - (-pairs / days).exp()
+}
 ```
 
 {{/* spoiler(text="text to hide", fixed_blur=false) \*}}

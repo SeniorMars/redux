@@ -28,18 +28,6 @@
     {% endblock post_list %}
 
     {% if paginator %}
-        <ul class="pagination">
-            {% if paginator.previous %}
-                <span class="page-item page-prev">
-                    <a href={{ paginator.previous }} class="page-link" aria-label="Previous"><span aria-hidden="true">← Prev</span></a>
-                </span>
-            {% endif %}
-
-            {% if paginator.next %}
-                <span class="page-item page-next">
-                    <a href={{ paginator.next }} class="page-link" aria-label="Next"><span aria-hidden="true">Next →</span></a>
-                </span>
-            {% endif %}
-        </ul>
+        {{ post_macros::pagination(paginator=paginator) }}
     {% endif %}
 {% endblock main_content %}

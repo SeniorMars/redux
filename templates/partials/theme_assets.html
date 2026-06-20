@@ -1,0 +1,41 @@
+{% set theme = config.extra.theme %}
+{% if theme == "dark" %}
+    <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" />
+{% elif theme == "light" %}
+    <link rel="stylesheet" type="text/css" href="{{ get_url(path="theme/light.css") }}" />
+{% elif theme == "auto" %}
+    <link rel="stylesheet" type="text/css" href="{{ get_url(path="theme/light.css") }}" />
+    <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" media="(prefers-color-scheme: dark)" />
+{% elif theme == "toggle" %}
+    <link rel="stylesheet" type="text/css" href="{{ get_url(path="theme/light.css") }}" />
+    <link id="darkModeStyle" rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" />
+{% endif %}
+
+{% if config.markdown.highlighting.style == "class" %}
+    {% if config.markdown.highlighting.light_theme is defined and config.markdown.highlighting.dark_theme is defined %}
+        {% if theme == "dark" %}
+            <link rel="stylesheet" type="text/css" href="{{ get_url(path='giallo-dark.css') }}" />
+        {% elif theme == "light" %}
+            <link rel="stylesheet" type="text/css" href="{{ get_url(path='giallo-light.css') }}" />
+        {% elif theme == "auto" %}
+            <link rel="stylesheet" type="text/css" href="{{ get_url(path='giallo-light.css') }}" media="(prefers-color-scheme: light)" />
+            <link rel="stylesheet" type="text/css" href="{{ get_url(path='giallo-dark.css') }}" media="(prefers-color-scheme: dark)" />
+        {% elif theme == "toggle" %}
+            <link rel="stylesheet" type="text/css" href="{{ get_url(path='giallo-light.css') }}" />
+            <link id="darkCodeStyle" rel="stylesheet" type="text/css" href="{{ get_url(path='giallo-dark.css') }}" />
+        {% endif %}
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{{ get_url(path='giallo.css') }}" />
+    {% endif %}
+{% endif %}
+
+<script src="{{ get_url(path="js/themetoggle.js") }}" data-theme="{{ theme }}"></script>
+
+{# Custom CSS #}
+<link rel="stylesheet" type="text/css" media="screen" href="{{ get_url(path="main.css") }}" />
+
+{% if config.extra.stylesheets %}
+    {% for stylesheet in config.extra.stylesheets %}
+        <link rel="stylesheet" href="{{ get_url(path=stylesheet) }}">
+    {% endfor %}
+{% endif %}

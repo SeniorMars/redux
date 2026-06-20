@@ -1,4 +1,4 @@
-<video autoplay loop muted playsinline>
+<video autoplay loop muted playsinline preload="metadata">
   {% for source in sources -%}
     {% set type = source | split(pat=".") | last -%}
     <source src="{{ config.base_url | safe }}{{ page.path | safe }}{{ source | safe }}" type="{{ 'video/' ~ type }}">

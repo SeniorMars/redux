@@ -1,11 +1,11 @@
 <nav>
     <div class="left-nav">
         {% if config.extra.logo %}
-            <a href={{ config.base_url }} class="logo">
+            <a href="{{ config.base_url }}" class="logo">
                 <img alt="{{ config.title }}" src="{{ get_url(path=config.extra.logo) }}">
             </a>
         {% else %}
-            <a href={{ config.base_url }}>{{ config.title }}</a>
+            <a href="{{ config.base_url }}">{{ config.title }}</a>
         {% endif %}
 
 
@@ -20,22 +20,28 @@
 
     <div class="right-nav">
         {% for menu in config.extra.menu %}
-            <a href={{ get_url(path=menu.url) }} style="margin-right: 0.5em">{{ menu.name }}</a>
+            <a href="{{ get_url(path=menu.url) }}" style="margin-right: 0.5em">{{ menu.name }}</a>
         {% endfor %}
 
         {% if config.build_search_index %}
             <button id="search-button"
                     class="search-button"
-                    title="$SHORTCUT to open search">
+                    title="$SHORTCUT to open search"
+                    aria-label="$SHORTCUT to open search"
+                    aria-haspopup="dialog"
+                    aria-controls="searchModal"
+                    aria-expanded="false">
                 <img src="{{ get_url(path='icons/search.svg') }}"
-                    alt="Search"
+                    alt=""
                     class="search-icon">
             </button>
 
             <div id="searchModal"
                 class="search-modal js"
                 role="dialog"
-                aria-labelledby="modalTitle">
+                aria-labelledby="modalTitle"
+                aria-modal="true"
+                aria-hidden="true">
                 <div id="modal-content">
                     <h1 id="modalTitle" class="page-header">Search</h1>
                     <div id="searchBar">
@@ -46,19 +52,22 @@
                             aria-expanded="false"
                             aria-controls="results-container"
                             placeholder="Search..." />
-                        <button id="clear-search" class="clear-button" title="Clear search">
+                        <button id="clear-search" class="clear-button" title="Clear search" aria-label="Clear search">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
                                 <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                             </svg>
                         </button>
                     </div>
                     <div id="results-container">
-                            <div id="results-info">
+                            <div id="results-info" role="status" aria-live="polite">
+                                <span id="loading_results" style="display:none;">Searching...</span>
+                                <span id="error_results" style="display:none;">Search unavailable</span>
                                 <span id="zero_results" style="display:none;">No results</span>
-                                <span id="one_results" style="display:none;">1 result</span>
+                                <span id="one_result" style="display:none;">1 result</span>
                                 <span id="two_results" style="display:none;">$NUMBER results</span>
                                 <span id="few_results" style="display:none;">$NUMBER results</span>
                                 <span id="many_results" style="display:none;">$NUMBER results</span>
+                                <span id="limited_results" style="display:none;">Showing first $LIMIT of $NUMBER results</span>
                             </div>
                         <div id="results" role="listbox"></div>
                     </div>
@@ -67,18 +76,21 @@
         {% endif %}
 
         {% if config.extra.theme == "toggle" %}
-            <a id="dark-mode-toggle"
-            onclick="toggleTheme(); event.preventDefault();"
-            href="#">
+            <button id="dark-mode-toggle"
+                    type="button"
+                    aria-label="Toggle color theme"
+                    aria-pressed="false"
+                    title="Toggle color theme">
                 <img src="{{ get_url(path="icons/sun.svg") }}"
                     id="sun-icon"
                     style="filter: invert(1)"
-                    alt="Light" />
-                <img src={{ get_url(path="icons/moon.svg") }} id="moon-icon" alt="Dark" />
-            </a>
-
-            <!-- Initialize the theme toggle icons -->
-            <script>updateItemToggleTheme()</script>
+                    alt=""
+                    aria-hidden="true" />
+                <img src="{{ get_url(path="icons/moon.svg") }}"
+                    id="moon-icon"
+                    alt=""
+                    aria-hidden="true" />
+            </button>
         {% endif %}
     </div>
 </nav>

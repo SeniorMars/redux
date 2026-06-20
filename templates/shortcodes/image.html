@@ -3,6 +3,6 @@
     {% set type = source | split(pat=".") | last -%}
     <source srcset="{{ config.base_url | safe}}{{ page.path | safe }}{{ source | safe }}" type="{{ 'img/' ~ type }}">
   {% endfor -%}
-  <img src="{{ fallback_path }}" alt="{{ fallback_alt }}"/>
+  {% set image_loading = loading | default(value="lazy") %}
+  <img src="{{ fallback_path }}" alt="{{ fallback_alt }}" loading="{{ image_loading }}" decoding="async"/>
 </picture>
-

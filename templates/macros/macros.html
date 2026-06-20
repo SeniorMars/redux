@@ -25,7 +25,7 @@
               </div>
 
               {% if not hide_read_more %}
-                <a class="readmore" href="{{ page.permalink | safe }}">Read more ⟶</a>
+                <a class="readmore" href="{{ page.permalink | safe }}" aria-label="Read more about {{ page.title }}">Read more ⟶</a>
               {% endif %}
             </div>
           </div>
@@ -41,13 +41,61 @@
     {%- for term in terms %}
         <section class="list-item">
             <h1 class="title">
-                <a href={{ term.permalink | safe }}>{{term.name}}</a>
+                <a href="{{ term.permalink | safe }}">{{ term.name }}</a>
             </h1>
         </section>
 
     {% endfor -%}
     </ul>
 {% endmacro list_terms %}
+
+{% macro pagination(paginator) %}
+    {% if paginator %}
+        <ul class="pagination">
+            {% if paginator.previous %}
+                <li class="page-item page-prev">
+                    <a href="{{ paginator.previous | safe }}" class="page-link" aria-label="Previous"><span aria-hidden="true">← Prev</span></a>
+                </li>
+            {% endif %}
+
+            {% if paginator.next %}
+                <li class="page-item page-next">
+                    <a href="{{ paginator.next | safe }}" class="page-link" aria-label="Next"><span aria-hidden="true">Next →</span></a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endmacro pagination %}
+
+{% macro toc_list(toc) %}
+    <ul class="toc-list">
+        {% for h1 in toc %}
+            <li class="parent">
+                <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+
+                {% if h1.children %}
+                    <ul>
+                        {% for h2 in h1.children %}
+                            <li>
+                                <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+                            </li>
+
+                            {% if h2.children %}
+                                <ul>
+                                    {% for h3 in h2.children %}
+                                        <li>
+                                            <a href="{{ h3.permalink | safe }}">{{ h3.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro toc_list %}
 
 {% macro tags(page, short=false) %}
     {%- if page.taxonomies and page.taxonomies.tags %}

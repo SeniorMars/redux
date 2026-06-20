@@ -128,6 +128,10 @@ html.light .search-button .search-icon {
             color: var(--text-1);
             font-size: 0.8rem;
             text-align: left;
+
+            #limited_results {
+                margin-left: 0.35rem;
+            }
         }
 
         #results {
@@ -160,10 +164,11 @@ html.light .search-button .search-icon {
                     line-height: 1.5;
 
                     // Highlight matched search terms
-                    b {
+                    mark {
                         font-weight: 600;
                         padding: 0.125rem 0.25rem;
                         border-radius: 3px;
+                        background: transparent;
                     }
                 }
 
@@ -176,12 +181,12 @@ html.light .search-button .search-icon {
 }
 
 // Theme-specific highlighting for search results
-html.light .search-modal #results span:nth-child(2) b {
+html.light .search-modal #results span:nth-child(2) mark {
     background: rgba(0, 0, 0, 0.08);
     color: var(--text-0);
 }
 
-html.dark .search-modal #results span:nth-child(2) b {
+html.dark .search-modal #results span:nth-child(2) mark {
     background: rgba(255, 255, 255, 0.15);
     color: var(--text-0);
 }

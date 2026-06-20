@@ -38,7 +38,7 @@
 
                         {% if repo_url %}
                             {% set final_url = repo_url ~ page.relative_path %}
-                            :: <a href="{{ final_url }}" target="_blank" rel="noopener noreferrer"> Source Code</a>
+                            :: <a href="{{ final_url }}" target="_blank" rel="noopener noreferrer" aria-label="View source code for {{ page.title }}"> Source Code</a>
                         {% endif %}
                     {% endif %}
 
@@ -78,39 +78,13 @@
         {% endif %}
 
 
-        {# Optional table of contents #}
-        {% if config.extra.toc | default(value=false) %}
-        {% if page.toc %}
+        {% set toc_enabled = config.extra.toc | default(value=false) %}
+        {% set show_inline_toc = page.extra.toc_inline | default(value=config.extra.toc_inline | default(value=toc_enabled)) %}
+        {% if show_inline_toc and page.toc %}
             <div class="toc-container">
                 <h1 class="toc-title">Table of Contents</h1>
-                <ul class="toc-list">
-                    {% for h1 in page.toc %}
-                        <li>
-                            <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
-                            {% if h1.children %}
-                                <ul>
-                                    {% for h2 in h1.children %}
-                                        <li>
-                                            <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
-                                        </li>
-
-                                        {% if h2.children %}
-                                            <ul>
-                                                {% for h3 in h2.children %}
-                                                    <li>
-                                                        <a href="{{ h3.permalink | safe }}">{{ h3.title }}</a>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
+                {{ post_macros::toc_list(toc=page.toc) }}
             </div>
-        {% endif %}
         {% endif %}
 
         <section class="body">
@@ -126,8 +100,9 @@
 {% endblock main_content %}
 
 {% block right_content %}
-{# Optional table of contents #}
-{% if config.extra.toc | default(value=false) and page.toc %}
+{% set toc_enabled = config.extra.toc | default(value=false) %}
+{% set show_sidebar_toc = page.extra.toc_sidebar | default(value=config.extra.toc_sidebar | default(value=toc_enabled)) %}
+{% if show_sidebar_toc and page.toc %}
     {% include "partials/toc.html" %}
 {% endif %}
 {% endblock right_content %}
