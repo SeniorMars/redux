@@ -71,6 +71,23 @@ time {
   list-style-type: none;
 }
 
+.pagination {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+}
+
+.pagination .page-item {
+  list-style: none;
+}
+
+.pagination .page-next {
+  margin-left: auto;
+}
+
 // change the line-through color
 del {
   text-decoration-color: var(--primary-color);
