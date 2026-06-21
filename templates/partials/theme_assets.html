@@ -1,15 +1,45 @@
-{% set theme = config.extra.theme %}
-{% if theme == "dark" %}
-    <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" />
-{% elif theme == "light" %}
-    <link rel="stylesheet" type="text/css" href="{{ get_url(path="theme/light.css") }}" />
-{% elif theme == "auto" %}
-    <link rel="stylesheet" type="text/css" href="{{ get_url(path="theme/light.css") }}" />
-    <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" media="(prefers-color-scheme: dark)" />
-{% elif theme == "toggle" %}
-    <link rel="stylesheet" type="text/css" href="{{ get_url(path="theme/light.css") }}" />
-    <link id="darkModeStyle" rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" />
-{% endif %}
+{% set theme = config.extra.theme | default(value="toggle") %}
+<script>
+    (function () {
+        const storageKey = "theme-storage";
+        const configuredTheme = "{{ theme }}";
+
+        function getStoredTheme() {
+            try {
+                return localStorage.getItem(storageKey);
+            } catch (_error) {
+                return null;
+            }
+        }
+
+        function getPreferredTheme() {
+            return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+        }
+
+        function normalizeTheme(mode) {
+            return mode === "dark" ? "dark" : "light";
+        }
+
+        function getActiveTheme() {
+            if (configuredTheme === "dark" || configuredTheme === "light") {
+                return configuredTheme;
+            }
+
+            if (configuredTheme === "auto") {
+                return getPreferredTheme();
+            }
+
+            return normalizeTheme(getStoredTheme() || getPreferredTheme());
+        }
+
+        const activeTheme = getActiveTheme();
+        const htmlElement = document.documentElement;
+        htmlElement.classList.toggle("dark", activeTheme === "dark");
+        htmlElement.classList.toggle("light", activeTheme === "light");
+    })();
+</script>
 
 {% if config.markdown.highlighting.style == "class" %}
     {% if config.markdown.highlighting.light_theme is defined and config.markdown.highlighting.dark_theme is defined %}
@@ -29,7 +59,7 @@
     {% endif %}
 {% endif %}
 
-<script src="{{ get_url(path="js/themetoggle.js") }}" data-theme="{{ theme }}"></script>
+<script defer src="{{ get_url(path="js/themetoggle.js") }}" data-theme="{{ theme }}"></script>
 
 {# Custom CSS #}
 <link rel="stylesheet" type="text/css" media="screen" href="{{ get_url(path="main.css") }}" />

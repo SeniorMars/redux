@@ -49,16 +49,11 @@
 
     function applyTheme(mode) {
         const activeMode = normalizeTheme(mode);
-        const darkModeStyles = [
-            document.getElementById("darkModeStyle"),
-            document.getElementById("darkCodeStyle"),
-        ];
+        const darkCodeStyle = document.getElementById("darkCodeStyle");
 
-        darkModeStyles.forEach((styleElement) => {
-            if (styleElement) {
-                styleElement.disabled = activeMode === "light";
-            }
-        });
+        if (darkCodeStyle) {
+            darkCodeStyle.disabled = activeMode === "light";
+        }
 
         const sunIcon = document.getElementById("sun-icon");
         const moonIcon = document.getElementById("moon-icon");
@@ -107,8 +102,6 @@
 
         updateItemToggleTheme();
     }
-
-    applyTheme(getActiveTheme());
 
     if (configuredTheme === "auto" && window.matchMedia) {
         const colorSchemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
